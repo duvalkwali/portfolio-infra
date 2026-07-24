@@ -1,0 +1,30 @@
+ledgerguard.duvalkwali.tech {
+	reverse_proxy ledgerguard:8080
+	encode gzip
+}
+
+relay.duvalkwali.tech {
+	reverse_proxy relay:3000
+	encode gzip
+}
+
+documind.duvalkwali.tech {
+	reverse_proxy documind:8000
+	encode gzip
+}
+
+aeropulse.duvalkwali.tech {
+	reverse_proxy aeropulse:8080
+	encode gzip
+}
+
+grafana.duvalkwali.tech {
+	reverse_proxy grafana:3000
+	encode gzip
+}
+
+duvalkwali.tech, www.duvalkwali.tech {
+	root * /srv/portfolio
+	file_server
+	encode gzip
+}
