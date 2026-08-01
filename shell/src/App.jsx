@@ -1,11 +1,15 @@
-import { Routes, Route, NavLink } from "react-router-dom";
+import { Routes, Route, NavLink, Navigate, useLocation } from "react-router-dom";
+import { AuthProvider, useAuth } from "./auth/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import Alerts from "./pages/Alerts";
 import Rules from "./pages/Rules";
 import AuditLedger from "./pages/AuditLedger";
 import Performance from "./pages/Performance";
+import Login from "./pages/Login";
 
 function Sidebar() {
+  const { role, signOut } = useAuth();
+
   const links = [
     { to: "/", label: "Dashboard", icon: "◈" },
     { to: "/alerts", label: "Alerts", icon: "▲" },
@@ -37,11 +41,31 @@ function Sidebar() {
           </NavLink>
         ))}
       </div>
+      <div style={styles.account}>
+        <div style={styles.roleRow}>
+          <span style={styles.roleLabel}>Signed in as</span>
+          <span style={styles.roleBadge}>{role}</span>
+        </div>
+        <button type="button" style={styles.signOut} onClick={signOut}>
+          Sign out
+        </button>
+      </div>
     </nav>
   );
 }
 
-export default function App() {
+/** Sends unauthenticated visitors to the login screen, remembering where they were headed. */
+function RequireAuth({ children }) {
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  }
+  return children;
+}
+
+function Console() {
   return (
     <div style={styles.layout}>
       <Sidebar />
@@ -52,9 +76,28 @@ export default function App() {
           <Route path="/rules" element={<Rules />} />
           <Route path="/audit" element={<AuditLedger />} />
           <Route path="/performance" element={<Performance />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="*"
+          element={
+            <RequireAuth>
+              <Console />
+            </RequireAuth>
+          }
+        />
+      </Routes>
+    </AuthProvider>
   );
 }
 
@@ -69,6 +112,8 @@ const styles = {
     borderRight: "1px solid var(--border)",
     padding: "24px 0",
     flexShrink: 0,
+    display: "flex",
+    flexDirection: "column",
   },
   logo: {
     padding: "0 24px 32px",
@@ -107,6 +152,40 @@ const styles = {
     width: 20,
     textAlign: "center",
     fontFamily: "var(--font-mono)",
+  },
+  account: {
+    marginTop: "auto",
+    padding: "16px 24px 0",
+    borderTop: "1px solid var(--border)",
+  },
+  roleRow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  roleLabel: {
+    fontSize: 11,
+    color: "var(--text-muted)",
+    textTransform: "uppercase",
+    letterSpacing: "0.05em",
+  },
+  roleBadge: {
+    fontFamily: "var(--font-mono)",
+    fontSize: 11,
+    fontWeight: 600,
+    color: "var(--accent)",
+  },
+  signOut: {
+    background: "transparent",
+    border: "1px solid var(--border)",
+    borderRadius: 8,
+    color: "var(--text-secondary)",
+    padding: "7px 12px",
+    fontSize: 13,
+    width: "100%",
+    cursor: "pointer",
+    fontFamily: "var(--font-sans)",
   },
   main: {
     flex: 1,

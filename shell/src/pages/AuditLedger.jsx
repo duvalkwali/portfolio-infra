@@ -1,26 +1,35 @@
 import { useState, useEffect } from "react";
+import * as api from "../api/client";
+
+function formatDateTime(value) {
+  if (!value) return "—";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "—" : date.toLocaleString();
+}
 
 export default function AuditLedger() {
   const [entries, setEntries] = useState([]);
   const [verifyResult, setVerifyResult] = useState(null);
   const [verifying, setVerifying] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/api/audit?limit=20")
-      .then((r) => r.json())
+    api
+      .getAudit(20)
       .then(setEntries)
-      .catch(() => {});
+      .catch((e) => setError(e.message));
   }, []);
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     setVerifying(true);
-    fetch("/api/audit/verify")
-      .then((r) => r.json())
-      .then((result) => {
-        setVerifyResult(result);
-        setVerifying(false);
-      })
-      .catch(() => setVerifying(false));
+    setError(null);
+    try {
+      setVerifyResult(await api.verifyAudit());
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setVerifying(false);
+    }
   };
 
   return (
@@ -31,6 +40,8 @@ export default function AuditLedger() {
           {verifying ? "Verifying..." : "Verify Chain"}
         </button>
       </div>
+
+      {error && <div style={styles.error}>{error}</div>}
 
       {verifyResult && (
         <div
@@ -43,7 +54,7 @@ export default function AuditLedger() {
           <span style={{ color: verifyResult.valid ? "var(--green)" : "var(--red)", fontWeight: 600 }}>
             {verifyResult.valid ? "Chain intact" : "Tampering detected"}
           </span>
-          {verifyResult.entries && (
+          {verifyResult.entries != null && (
             <span style={styles.verifyDetail}>
               {verifyResult.entries} entries verified in {verifyResult.durationMs}ms
             </span>
@@ -66,7 +77,7 @@ export default function AuditLedger() {
             <div key={e.id} style={styles.block}>
               <div style={styles.blockHeader}>
                 <span style={styles.blockIndex}>#{e.id}</span>
-                <span style={styles.blockTime}>{e.createdAt}</span>
+                <span style={styles.blockTime}>{formatDateTime(e.createdAt)}</span>
               </div>
               <div style={styles.hashRow}>
                 <span style={styles.hashLabel}>hash</span>
@@ -132,6 +143,15 @@ const styles = {
     textAlign: "center",
   },
   emptyText: { color: "var(--text-muted)", fontSize: 14 },
+  error: {
+    background: "rgba(239,68,68,0.08)",
+    border: "1px solid var(--red)",
+    borderRadius: 8,
+    padding: "10px 14px",
+    fontSize: 13,
+    color: "var(--red)",
+    marginBottom: 20,
+  },
   chain: {
     display: "flex",
     flexDirection: "column",

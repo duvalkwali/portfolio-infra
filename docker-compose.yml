@@ -69,6 +69,7 @@ services:
           memory: 96M
 
   ledgerguard:
+    image: ghcr.io/duvalkwali/ledgerguard:latest
     build:
       context: ../ledgerguard
       dockerfile: Dockerfile
