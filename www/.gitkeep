@@ -1,0 +1,7 @@
+# Static roots served by Caddy, mounted read-only at /srv in the caddy container.
+#
+# The built LedgerGuard dashboard lives in ./ledgerguard here on the droplet — the
+# output of `npm run build` in shell/, copied across at deploy time. Build artefacts
+# are not committed (see .gitignore), so this file exists to keep the mount point in
+# the repository; a missing ./www would make Docker create it as a root-owned
+# directory and Caddy would serve 404s from an empty root.

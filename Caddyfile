@@ -1,6 +1,38 @@
+# The dashboard SPA and the API it calls share this origin, so the browser issues
+# same-origin requests and CORS never enters the picture in production. `handle` blocks
+# are mutually exclusive and matched in the order written: anything that is not a
+# backend path falls through to the static bundle.
 ledgerguard.duvalkwali.tech {
-	reverse_proxy ledgerguard:8080
 	encode gzip
+
+	handle /api/* {
+		reverse_proxy ledgerguard:8080
+	}
+	handle /actuator/* {
+		reverse_proxy ledgerguard:8080
+	}
+	handle /swagger-ui/* {
+		reverse_proxy ledgerguard:8080
+	}
+	# springdoc serves the UI entry point at this exact path and redirects from it to
+	# /swagger-ui/index.html. Without its own block it would fall through to the SPA.
+	handle /swagger-ui.html {
+		reverse_proxy ledgerguard:8080
+	}
+	# No trailing slash in the matcher: the spec itself is /v3/api-docs exactly, with
+	# /v3/api-docs/swagger-config beside it. A /v3/api-docs/* matcher would miss the
+	# former and Swagger UI would load with nothing in it.
+	handle /v3/api-docs* {
+		reverse_proxy ledgerguard:8080
+	}
+
+	handle {
+		root * /srv/ledgerguard
+		# Client-side routing: /alerts and /rules are React Router paths with no file
+		# behind them, so an unmatched request serves the shell and lets the router decide.
+		try_files {path} /index.html
+		file_server
+	}
 }
 
 relay.duvalkwali.tech {

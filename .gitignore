@@ -1,4 +1,11 @@
+# Real secrets. `.env.example` is the committed template; `shell/.env.production` is
+# committed on purpose — it holds one deliberately empty, non-secret value.
 .env
+
 *.log
 node_modules/
+
+# Build output, shell/dist/ included. The dashboard bundle is never committed: the
+# deploy rebuilds it from source and copies the result into www/ledgerguard on the
+# droplet, so a checked-in dist/ could only ever be stale.
 dist/
