@@ -1,12 +1,20 @@
-import http from "k6/http";
-import { check, sleep } from "k6";
-import { Rate, Trend } from "k6/metrics";
+import { sleep } from "k6";
+import {
+  BASE_URL,
+  SUMMARY_TREND_STATS,
+  authenticate,
+  screenOnce,
+} from "./lib/screening.js";
 
-const errorRate = new Rate("errors");
-const screenLatency = new Trend("screen_latency", true);
-
-const BASE_URL = __ENV.BASE_URL || "https://ledgerguard.duvalkwali.tech";
-
+/**
+ * BEFORE run — the naive screening path.
+ *
+ * Every request re-reads the enabled rules from Postgres and appends the audit entry
+ * synchronously, inside the request. Thresholds are deliberately loose: this run exists
+ * to record what the unoptimised path does, not to pass or fail.
+ *
+ *   docker run --rm -i -v "$PWD":/scripts grafana/k6 run /scripts/baseline.js
+ */
 export const options = {
   stages: [
     { duration: "30s", target: 10 },
@@ -15,47 +23,19 @@ export const options = {
     { duration: "30s", target: 0 },
   ],
   thresholds: {
-    errors: ["rate<0.01"],
-    screen_latency: ["p(95)<2000"],
+    errors: ["rate<0.05"],
+    screen_latency: ["p(95)<5000"],
   },
+  summaryTrendStats: SUMMARY_TREND_STATS,
 };
 
-function randomTransaction() {
-  return {
-    amount: Math.random() * 10000,
-    currency: "CAD",
-    merchantId: `MERCH-${Math.floor(Math.random() * 500)}`,
-    merchantCategory: ["grocery", "electronics", "travel", "atm", "online"][
-      Math.floor(Math.random() * 5)
-    ],
-    accountId: `ACC-${Math.floor(Math.random() * 1000)}`,
-    country: ["CA", "US", "NG", "RU", "CN", "GB"][
-      Math.floor(Math.random() * 6)
-    ],
-    channel: ["POS", "ONLINE", "ATM"][Math.floor(Math.random() * 3)],
-    timestamp: new Date().toISOString(),
-  };
+export function setup() {
+  const session = authenticate();
+  console.log(`baseline: authenticated against ${BASE_URL}`);
+  return session;
 }
 
-export default function () {
-  const payload = JSON.stringify(randomTransaction());
-  const params = { headers: { "Content-Type": "application/json" } };
-
-  const res = http.post(`${BASE_URL}/api/screen`, payload, params);
-
-  check(res, {
-    "status is 200": (r) => r.status === 200,
-    "has risk score": (r) => {
-      try {
-        return JSON.parse(r.body).riskScore !== undefined;
-      } catch {
-        return false;
-      }
-    },
-  });
-
-  errorRate.add(res.status !== 200);
-  screenLatency.add(res.timings.duration);
-
+export default function (data) {
+  screenOnce(data.token);
   sleep(0.1);
 }

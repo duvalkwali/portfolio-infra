@@ -1,0 +1,1167 @@
+﻿LedgerGuard - AFTER (optimized screening path, 200 VU capacity run)
+================================================================
+Captured      : 2026-08-01 01:52:24 -04:00
+Target        : https://ledgerguard.duvalkwali.tech (live)
+Backend commit: 46ad6f3
+Container     : 0.75 CPU / 768 MB, identical limits to the baseline run
+Path measured : enabled rules served from Redis; audit entry queued for a
+                single-writer thread that batch-inserts off the request path
+Load          : peak 200 VUs - DOUBLE the baseline's 100. This run exists to
+                find the ceiling, so its latencies are deliberately NOT the
+                before/after comparison. For that see after-equal-load.txt,
+                which replays the baseline's exact 100 VU profile.
+Ledger state  : reset, then seeded with 500 screened transactions
+================================================================
+
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: /scripts/after.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 200 max VUs, 5m30s max duration (incl. graceful stop):
+              * default: Up to 200 looping VUs for 5m0s over 5 stages (gracefulRampDown: 30s, gracefulStop: 30s)
+
+time="2026-08-01T05:47:23Z" level=info msg="after: authenticated against https://ledgerguard.duvalkwali.tech" source=console
+
+running (0m01.0s), 001/200 VUs, 2 complete and 0 interrupted iterations
+default   [   0% ] 001/200 VUs  0m00.3s/5m00.0s
+
+running (0m02.0s), 001/200 VUs, 11 complete and 0 interrupted iterations
+default   [   0% ] 001/200 VUs  0m01.3s/5m00.0s
+
+running (0m03.0s), 001/200 VUs, 21 complete and 0 interrupted iterations
+default   [   1% ] 001/200 VUs  0m02.3s/5m00.0s
+
+running (0m04.0s), 001/200 VUs, 33 complete and 0 interrupted iterations
+default   [   1% ] 001/200 VUs  0m03.3s/5m00.0s
+
+running (0m05.0s), 002/200 VUs, 53 complete and 0 interrupted iterations
+default   [   1% ] 002/200 VUs  0m04.3s/5m00.0s
+
+running (0m06.0s), 002/200 VUs, 76 complete and 0 interrupted iterations
+default   [   2% ] 002/200 VUs  0m05.3s/5m00.0s
+
+running (0m07.0s), 002/200 VUs, 98 complete and 0 interrupted iterations
+default   [   2% ] 002/200 VUs  0m06.3s/5m00.0s
+
+running (0m08.0s), 003/200 VUs, 122 complete and 0 interrupted iterations
+default   [   2% ] 003/200 VUs  0m07.3s/5m00.0s
+
+running (0m09.0s), 003/200 VUs, 154 complete and 0 interrupted iterations
+default   [   3% ] 003/200 VUs  0m08.3s/5m00.0s
+
+running (0m10.0s), 003/200 VUs, 185 complete and 0 interrupted iterations
+default   [   3% ] 003/200 VUs  0m09.3s/5m00.0s
+
+running (0m11.0s), 004/200 VUs, 220 complete and 0 interrupted iterations
+default   [   3% ] 004/200 VUs  0m10.3s/5m00.0s
+
+running (0m12.0s), 004/200 VUs, 264 complete and 0 interrupted iterations
+default   [   4% ] 004/200 VUs  0m11.3s/5m00.0s
+
+running (0m13.0s), 004/200 VUs, 310 complete and 0 interrupted iterations
+default   [   4% ] 004/200 VUs  0m12.3s/5m00.0s
+
+running (0m14.0s), 004/200 VUs, 356 complete and 0 interrupted iterations
+default   [   4% ] 004/200 VUs  0m13.3s/5m00.0s
+
+running (0m15.0s), 005/200 VUs, 410 complete and 0 interrupted iterations
+default   [   5% ] 005/200 VUs  0m14.3s/5m00.0s
+
+running (0m16.0s), 005/200 VUs, 465 complete and 0 interrupted iterations
+default   [   5% ] 005/200 VUs  0m15.3s/5m00.0s
+
+running (0m17.0s), 005/200 VUs, 521 complete and 0 interrupted iterations
+default   [   5% ] 005/200 VUs  0m16.3s/5m00.0s
+
+running (0m18.0s), 006/200 VUs, 577 complete and 0 interrupted iterations
+default   [   6% ] 006/200 VUs  0m17.3s/5m00.0s
+
+running (0m19.0s), 006/200 VUs, 646 complete and 0 interrupted iterations
+default   [   6% ] 006/200 VUs  0m18.3s/5m00.0s
+
+running (0m20.0s), 006/200 VUs, 714 complete and 0 interrupted iterations
+default   [   6% ] 006/200 VUs  0m19.3s/5m00.0s
+
+running (0m21.0s), 007/200 VUs, 772 complete and 0 interrupted iterations
+default   [   7% ] 007/200 VUs  0m20.3s/5m00.0s
+
+running (0m22.0s), 007/200 VUs, 853 complete and 0 interrupted iterations
+default   [   7% ] 007/200 VUs  0m21.3s/5m00.0s
+
+running (0m23.0s), 007/200 VUs, 926 complete and 0 interrupted iterations
+default   [   7% ] 007/200 VUs  0m22.3s/5m00.0s
+
+running (0m24.0s), 007/200 VUs, 1006 complete and 0 interrupted iterations
+default   [   8% ] 007/200 VUs  0m23.3s/5m00.0s
+
+running (0m25.0s), 008/200 VUs, 1094 complete and 0 interrupted iterations
+default   [   8% ] 008/200 VUs  0m24.3s/5m00.0s
+
+running (0m26.0s), 008/200 VUs, 1184 complete and 0 interrupted iterations
+default   [   8% ] 008/200 VUs  0m25.3s/5m00.0s
+
+running (0m27.0s), 008/200 VUs, 1271 complete and 0 interrupted iterations
+default   [   9% ] 008/200 VUs  0m26.3s/5m00.0s
+
+running (0m28.0s), 009/200 VUs, 1363 complete and 0 interrupted iterations
+default   [   9% ] 009/200 VUs  0m27.3s/5m00.0s
+
+running (0m29.0s), 009/200 VUs, 1464 complete and 0 interrupted iterations
+default   [   9% ] 009/200 VUs  0m28.3s/5m00.0s
+
+running (0m30.0s), 009/200 VUs, 1566 complete and 0 interrupted iterations
+default   [  10% ] 009/200 VUs  0m29.3s/5m00.0s
+
+running (0m31.0s), 010/200 VUs, 1659 complete and 0 interrupted iterations
+default   [  10% ] 010/200 VUs  0m30.3s/5m00.0s
+
+running (0m32.0s), 010/200 VUs, 1769 complete and 0 interrupted iterations
+default   [  10% ] 010/200 VUs  0m31.3s/5m00.0s
+
+running (0m33.0s), 011/200 VUs, 1879 complete and 0 interrupted iterations
+default   [  11% ] 011/200 VUs  0m32.3s/5m00.0s
+
+running (0m34.0s), 012/200 VUs, 2004 complete and 0 interrupted iterations
+default   [  11% ] 012/200 VUs  0m33.3s/5m00.0s
+
+running (0m35.0s), 012/200 VUs, 2133 complete and 0 interrupted iterations
+default   [  11% ] 012/200 VUs  0m34.3s/5m00.0s
+
+running (0m36.0s), 013/200 VUs, 2267 complete and 0 interrupted iterations
+default   [  12% ] 013/200 VUs  0m35.3s/5m00.0s
+
+running (0m37.0s), 014/200 VUs, 2413 complete and 0 interrupted iterations
+default   [  12% ] 014/200 VUs  0m36.3s/5m00.0s
+
+running (0m38.0s), 014/200 VUs, 2535 complete and 0 interrupted iterations
+default   [  12% ] 014/200 VUs  0m37.3s/5m00.0s
+
+running (0m39.0s), 015/200 VUs, 2691 complete and 0 interrupted iterations
+default   [  13% ] 015/200 VUs  0m38.3s/5m00.0s
+
+running (0m40.0s), 016/200 VUs, 2850 complete and 0 interrupted iterations
+default   [  13% ] 016/200 VUs  0m39.3s/5m00.0s
+
+running (0m41.0s), 016/200 VUs, 3029 complete and 0 interrupted iterations
+default   [  13% ] 016/200 VUs  0m40.3s/5m00.0s
+
+running (0m42.0s), 017/200 VUs, 3212 complete and 0 interrupted iterations
+default   [  14% ] 017/200 VUs  0m41.3s/5m00.0s
+
+running (0m43.0s), 018/200 VUs, 3380 complete and 0 interrupted iterations
+default   [  14% ] 018/200 VUs  0m42.3s/5m00.0s
+
+running (0m44.0s), 018/200 VUs, 3562 complete and 0 interrupted iterations
+default   [  14% ] 018/200 VUs  0m43.3s/5m00.0s
+
+running (0m45.0s), 019/200 VUs, 3763 complete and 0 interrupted iterations
+default   [  15% ] 019/200 VUs  0m44.3s/5m00.0s
+
+running (0m46.0s), 020/200 VUs, 3971 complete and 0 interrupted iterations
+default   [  15% ] 020/200 VUs  0m45.3s/5m00.0s
+
+running (0m47.0s), 020/200 VUs, 4191 complete and 0 interrupted iterations
+default   [  15% ] 020/200 VUs  0m46.3s/5m00.0s
+
+running (0m48.0s), 021/200 VUs, 4408 complete and 0 interrupted iterations
+default   [  16% ] 021/200 VUs  0m47.3s/5m00.0s
+
+running (0m49.0s), 022/200 VUs, 4621 complete and 0 interrupted iterations
+default   [  16% ] 022/200 VUs  0m48.3s/5m00.0s
+
+running (0m50.0s), 022/200 VUs, 4855 complete and 0 interrupted iterations
+default   [  16% ] 022/200 VUs  0m49.3s/5m00.0s
+
+running (0m51.0s), 023/200 VUs, 5076 complete and 0 interrupted iterations
+default   [  17% ] 023/200 VUs  0m50.3s/5m00.0s
+
+running (0m52.0s), 024/200 VUs, 5326 complete and 0 interrupted iterations
+default   [  17% ] 024/200 VUs  0m51.3s/5m00.0s
+
+running (0m53.0s), 024/200 VUs, 5556 complete and 0 interrupted iterations
+default   [  17% ] 024/200 VUs  0m52.3s/5m00.0s
+
+running (0m54.0s), 025/200 VUs, 5794 complete and 0 interrupted iterations
+default   [  18% ] 025/200 VUs  0m53.3s/5m00.0s
+
+running (0m55.0s), 026/200 VUs, 6059 complete and 0 interrupted iterations
+default   [  18% ] 026/200 VUs  0m54.3s/5m00.0s
+
+running (0m56.0s), 026/200 VUs, 6344 complete and 0 interrupted iterations
+default   [  18% ] 026/200 VUs  0m55.3s/5m00.0s
+
+running (0m57.0s), 027/200 VUs, 6613 complete and 0 interrupted iterations
+default   [  19% ] 027/200 VUs  0m56.3s/5m00.0s
+
+running (0m58.0s), 028/200 VUs, 6874 complete and 0 interrupted iterations
+default   [  19% ] 028/200 VUs  0m57.3s/5m00.0s
+
+running (0m59.0s), 028/200 VUs, 7154 complete and 0 interrupted iterations
+default   [  19% ] 028/200 VUs  0m58.3s/5m00.0s
+
+running (1m00.0s), 029/200 VUs, 7428 complete and 0 interrupted iterations
+default   [  20% ] 029/200 VUs  0m59.3s/5m00.0s
+
+running (1m01.0s), 030/200 VUs, 7728 complete and 0 interrupted iterations
+default   [  20% ] 030/200 VUs  1m00.3s/5m00.0s
+
+running (1m02.0s), 030/200 VUs, 8038 complete and 0 interrupted iterations
+default   [  20% ] 030/200 VUs  1m01.3s/5m00.0s
+
+running (1m03.0s), 031/200 VUs, 8360 complete and 0 interrupted iterations
+default   [  21% ] 031/200 VUs  1m02.3s/5m00.0s
+
+running (1m04.0s), 032/200 VUs, 8631 complete and 0 interrupted iterations
+default   [  21% ] 032/200 VUs  1m03.3s/5m00.0s
+
+running (1m05.0s), 032/200 VUs, 8936 complete and 0 interrupted iterations
+default   [  21% ] 032/200 VUs  1m04.3s/5m00.0s
+
+running (1m06.0s), 033/200 VUs, 9255 complete and 0 interrupted iterations
+default   [  22% ] 033/200 VUs  1m05.3s/5m00.0s
+
+running (1m07.0s), 034/200 VUs, 9539 complete and 0 interrupted iterations
+default   [  22% ] 034/200 VUs  1m06.3s/5m00.0s
+
+running (1m08.0s), 034/200 VUs, 9856 complete and 0 interrupted iterations
+default   [  22% ] 034/200 VUs  1m07.3s/5m00.0s
+
+running (1m09.0s), 035/200 VUs, 10190 complete and 0 interrupted iterations
+default   [  23% ] 035/200 VUs  1m08.3s/5m00.0s
+
+running (1m10.0s), 036/200 VUs, 10525 complete and 0 interrupted iterations
+default   [  23% ] 036/200 VUs  1m09.3s/5m00.0s
+
+running (1m11.0s), 036/200 VUs, 10852 complete and 0 interrupted iterations
+default   [  23% ] 036/200 VUs  1m10.3s/5m00.0s
+
+running (1m12.0s), 037/200 VUs, 11188 complete and 0 interrupted iterations
+default   [  24% ] 037/200 VUs  1m11.3s/5m00.0s
+
+running (1m13.0s), 038/200 VUs, 11520 complete and 0 interrupted iterations
+default   [  24% ] 038/200 VUs  1m12.3s/5m00.0s
+
+running (1m14.0s), 038/200 VUs, 11842 complete and 0 interrupted iterations
+default   [  24% ] 038/200 VUs  1m13.3s/5m00.0s
+
+running (1m15.0s), 039/200 VUs, 12178 complete and 0 interrupted iterations
+default   [  25% ] 039/200 VUs  1m14.3s/5m00.0s
+
+running (1m16.0s), 040/200 VUs, 12498 complete and 0 interrupted iterations
+default   [  25% ] 040/200 VUs  1m15.3s/5m00.0s
+
+running (1m17.0s), 040/200 VUs, 12829 complete and 0 interrupted iterations
+default   [  25% ] 040/200 VUs  1m16.3s/5m00.0s
+
+running (1m18.0s), 041/200 VUs, 13185 complete and 0 interrupted iterations
+default   [  26% ] 041/200 VUs  1m17.3s/5m00.0s
+
+running (1m19.0s), 042/200 VUs, 13536 complete and 0 interrupted iterations
+default   [  26% ] 042/200 VUs  1m18.3s/5m00.0s
+
+running (1m20.0s), 042/200 VUs, 13880 complete and 0 interrupted iterations
+default   [  26% ] 042/200 VUs  1m19.3s/5m00.0s
+
+running (1m21.0s), 043/200 VUs, 14224 complete and 0 interrupted iterations
+default   [  27% ] 043/200 VUs  1m20.3s/5m00.0s
+
+running (1m22.0s), 044/200 VUs, 14597 complete and 0 interrupted iterations
+default   [  27% ] 044/200 VUs  1m21.3s/5m00.0s
+
+running (1m23.0s), 044/200 VUs, 14943 complete and 0 interrupted iterations
+default   [  27% ] 044/200 VUs  1m22.3s/5m00.0s
+
+running (1m24.0s), 045/200 VUs, 15291 complete and 0 interrupted iterations
+default   [  28% ] 045/200 VUs  1m23.3s/5m00.0s
+
+running (1m25.0s), 046/200 VUs, 15632 complete and 0 interrupted iterations
+default   [  28% ] 046/200 VUs  1m24.3s/5m00.0s
+
+running (1m26.0s), 046/200 VUs, 15984 complete and 0 interrupted iterations
+default   [  28% ] 046/200 VUs  1m25.3s/5m00.0s
+
+running (1m27.0s), 047/200 VUs, 16351 complete and 0 interrupted iterations
+default   [  29% ] 047/200 VUs  1m26.3s/5m00.0s
+
+running (1m28.0s), 048/200 VUs, 16727 complete and 0 interrupted iterations
+default   [  29% ] 048/200 VUs  1m27.3s/5m00.0s
+
+running (1m29.0s), 048/200 VUs, 17093 complete and 0 interrupted iterations
+default   [  29% ] 048/200 VUs  1m28.3s/5m00.0s
+
+running (1m30.0s), 049/200 VUs, 17482 complete and 0 interrupted iterations
+default   [  30% ] 049/200 VUs  1m29.3s/5m00.0s
+
+running (1m31.0s), 050/200 VUs, 17844 complete and 0 interrupted iterations
+default   [  30% ] 050/200 VUs  1m30.3s/5m00.0s
+
+running (1m32.0s), 051/200 VUs, 18214 complete and 0 interrupted iterations
+default   [  30% ] 051/200 VUs  1m31.3s/5m00.0s
+
+running (1m33.0s), 051/200 VUs, 18590 complete and 0 interrupted iterations
+default   [  31% ] 051/200 VUs  1m32.3s/5m00.0s
+
+running (1m34.0s), 052/200 VUs, 18968 complete and 0 interrupted iterations
+default   [  31% ] 052/200 VUs  1m33.3s/5m00.0s
+
+running (1m35.0s), 053/200 VUs, 19363 complete and 0 interrupted iterations
+default   [  31% ] 053/200 VUs  1m34.3s/5m00.0s
+
+running (1m36.0s), 054/200 VUs, 19744 complete and 0 interrupted iterations
+default   [  32% ] 054/200 VUs  1m35.3s/5m00.0s
+
+running (1m37.0s), 055/200 VUs, 20127 complete and 0 interrupted iterations
+default   [  32% ] 055/200 VUs  1m36.3s/5m00.0s
+
+running (1m38.0s), 056/200 VUs, 20487 complete and 0 interrupted iterations
+default   [  32% ] 056/200 VUs  1m37.3s/5m00.0s
+
+running (1m39.0s), 056/200 VUs, 20788 complete and 0 interrupted iterations
+default   [  33% ] 056/200 VUs  1m38.3s/5m00.0s
+
+running (1m40.0s), 057/200 VUs, 21123 complete and 0 interrupted iterations
+default   [  33% ] 057/200 VUs  1m39.3s/5m00.0s
+
+running (1m41.0s), 058/200 VUs, 21496 complete and 0 interrupted iterations
+default   [  33% ] 058/200 VUs  1m40.3s/5m00.0s
+
+running (1m42.0s), 059/200 VUs, 21860 complete and 0 interrupted iterations
+default   [  34% ] 059/200 VUs  1m41.3s/5m00.0s
+
+running (1m43.0s), 060/200 VUs, 22239 complete and 0 interrupted iterations
+default   [  34% ] 060/200 VUs  1m42.3s/5m00.0s
+
+running (1m44.0s), 061/200 VUs, 22626 complete and 0 interrupted iterations
+default   [  34% ] 061/200 VUs  1m43.3s/5m00.0s
+
+running (1m45.0s), 061/200 VUs, 23015 complete and 0 interrupted iterations
+default   [  35% ] 061/200 VUs  1m44.3s/5m00.0s
+
+running (1m46.0s), 062/200 VUs, 23343 complete and 0 interrupted iterations
+default   [  35% ] 062/200 VUs  1m45.3s/5m00.0s
+
+running (1m47.0s), 063/200 VUs, 23683 complete and 0 interrupted iterations
+default   [  35% ] 063/200 VUs  1m46.3s/5m00.0s
+
+running (1m48.0s), 064/200 VUs, 24075 complete and 0 interrupted iterations
+default   [  36% ] 064/200 VUs  1m47.3s/5m00.0s
+
+running (1m49.0s), 065/200 VUs, 24435 complete and 0 interrupted iterations
+default   [  36% ] 065/200 VUs  1m48.3s/5m00.0s
+
+running (1m50.0s), 066/200 VUs, 24822 complete and 0 interrupted iterations
+default   [  36% ] 066/200 VUs  1m49.3s/5m00.0s
+
+running (1m51.0s), 066/200 VUs, 25235 complete and 0 interrupted iterations
+default   [  37% ] 066/200 VUs  1m50.3s/5m00.0s
+
+running (1m52.0s), 067/200 VUs, 25654 complete and 0 interrupted iterations
+default   [  37% ] 067/200 VUs  1m51.3s/5m00.0s
+
+running (1m53.0s), 068/200 VUs, 26030 complete and 0 interrupted iterations
+default   [  37% ] 068/200 VUs  1m52.3s/5m00.0s
+
+running (1m54.0s), 069/200 VUs, 26419 complete and 0 interrupted iterations
+default   [  38% ] 069/200 VUs  1m53.3s/5m00.0s
+
+running (1m55.0s), 070/200 VUs, 26830 complete and 0 interrupted iterations
+default   [  38% ] 070/200 VUs  1m54.3s/5m00.0s
+
+running (1m56.0s), 071/200 VUs, 27205 complete and 0 interrupted iterations
+default   [  38% ] 071/200 VUs  1m55.3s/5m00.0s
+
+running (1m57.0s), 071/200 VUs, 27610 complete and 0 interrupted iterations
+default   [  39% ] 071/200 VUs  1m56.3s/5m00.0s
+
+running (1m58.0s), 072/200 VUs, 28052 complete and 0 interrupted iterations
+default   [  39% ] 072/200 VUs  1m57.3s/5m00.0s
+
+running (1m59.0s), 073/200 VUs, 28449 complete and 0 interrupted iterations
+default   [  39% ] 073/200 VUs  1m58.3s/5m00.0s
+
+running (2m00.0s), 074/200 VUs, 28846 complete and 0 interrupted iterations
+default   [  40% ] 074/200 VUs  1m59.3s/5m00.0s
+
+running (2m01.0s), 075/200 VUs, 29238 complete and 0 interrupted iterations
+default   [  40% ] 075/200 VUs  2m00.3s/5m00.0s
+
+running (2m02.0s), 076/200 VUs, 29690 complete and 0 interrupted iterations
+default   [  40% ] 076/200 VUs  2m01.3s/5m00.0s
+
+running (2m03.0s), 076/200 VUs, 30093 complete and 0 interrupted iterations
+default   [  41% ] 076/200 VUs  2m02.3s/5m00.0s
+
+running (2m04.0s), 077/200 VUs, 30526 complete and 0 interrupted iterations
+default   [  41% ] 077/200 VUs  2m03.3s/5m00.0s
+
+running (2m05.0s), 078/200 VUs, 30957 complete and 0 interrupted iterations
+default   [  41% ] 078/200 VUs  2m04.3s/5m00.0s
+
+running (2m06.0s), 079/200 VUs, 31355 complete and 0 interrupted iterations
+default   [  42% ] 079/200 VUs  2m05.3s/5m00.0s
+
+running (2m07.0s), 080/200 VUs, 31743 complete and 0 interrupted iterations
+default   [  42% ] 080/200 VUs  2m06.3s/5m00.0s
+
+running (2m08.0s), 081/200 VUs, 32168 complete and 0 interrupted iterations
+default   [  42% ] 081/200 VUs  2m07.3s/5m00.0s
+
+running (2m09.0s), 081/200 VUs, 32593 complete and 0 interrupted iterations
+default   [  43% ] 081/200 VUs  2m08.3s/5m00.0s
+
+running (2m10.0s), 082/200 VUs, 33007 complete and 0 interrupted iterations
+default   [  43% ] 082/200 VUs  2m09.3s/5m00.0s
+
+running (2m11.0s), 083/200 VUs, 33399 complete and 0 interrupted iterations
+default   [  43% ] 083/200 VUs  2m10.3s/5m00.0s
+
+running (2m12.0s), 084/200 VUs, 33836 complete and 0 interrupted iterations
+default   [  44% ] 084/200 VUs  2m11.3s/5m00.0s
+
+running (2m13.0s), 085/200 VUs, 34244 complete and 0 interrupted iterations
+default   [  44% ] 085/200 VUs  2m12.3s/5m00.0s
+
+running (2m14.0s), 086/200 VUs, 34679 complete and 0 interrupted iterations
+default   [  44% ] 086/200 VUs  2m13.3s/5m00.0s
+
+running (2m15.0s), 086/200 VUs, 35097 complete and 0 interrupted iterations
+default   [  45% ] 086/200 VUs  2m14.3s/5m00.0s
+
+running (2m16.0s), 087/200 VUs, 35506 complete and 0 interrupted iterations
+default   [  45% ] 087/200 VUs  2m15.3s/5m00.0s
+
+running (2m17.0s), 088/200 VUs, 35919 complete and 0 interrupted iterations
+default   [  45% ] 088/200 VUs  2m16.3s/5m00.0s
+
+running (2m18.0s), 089/200 VUs, 36349 complete and 0 interrupted iterations
+default   [  46% ] 089/200 VUs  2m17.3s/5m00.0s
+
+running (2m19.0s), 090/200 VUs, 36812 complete and 0 interrupted iterations
+default   [  46% ] 090/200 VUs  2m18.3s/5m00.0s
+
+running (2m20.0s), 091/200 VUs, 37205 complete and 0 interrupted iterations
+default   [  46% ] 091/200 VUs  2m19.3s/5m00.0s
+
+running (2m21.0s), 091/200 VUs, 37647 complete and 0 interrupted iterations
+default   [  47% ] 091/200 VUs  2m20.3s/5m00.0s
+
+running (2m22.0s), 092/200 VUs, 38051 complete and 0 interrupted iterations
+default   [  47% ] 092/200 VUs  2m21.3s/5m00.0s
+
+running (2m23.0s), 093/200 VUs, 38500 complete and 0 interrupted iterations
+default   [  47% ] 093/200 VUs  2m22.3s/5m00.0s
+
+running (2m24.0s), 094/200 VUs, 38905 complete and 0 interrupted iterations
+default   [  48% ] 094/200 VUs  2m23.3s/5m00.0s
+
+running (2m25.0s), 095/200 VUs, 39323 complete and 0 interrupted iterations
+default   [  48% ] 095/200 VUs  2m24.3s/5m00.0s
+
+running (2m26.0s), 096/200 VUs, 39716 complete and 0 interrupted iterations
+default   [  48% ] 096/200 VUs  2m25.3s/5m00.0s
+
+running (2m27.0s), 096/200 VUs, 40161 complete and 0 interrupted iterations
+default   [  49% ] 096/200 VUs  2m26.3s/5m00.0s
+
+running (2m28.0s), 097/200 VUs, 40560 complete and 0 interrupted iterations
+default   [  49% ] 097/200 VUs  2m27.3s/5m00.0s
+
+running (2m29.0s), 098/200 VUs, 40988 complete and 0 interrupted iterations
+default   [  49% ] 098/200 VUs  2m28.3s/5m00.0s
+
+running (2m30.0s), 099/200 VUs, 41452 complete and 0 interrupted iterations
+default   [  50% ] 099/200 VUs  2m29.3s/5m00.0s
+
+running (2m31.0s), 100/200 VUs, 41886 complete and 0 interrupted iterations
+default   [  50% ] 100/200 VUs  2m30.3s/5m00.0s
+
+running (2m32.0s), 101/200 VUs, 42287 complete and 0 interrupted iterations
+default   [  50% ] 101/200 VUs  2m31.3s/5m00.0s
+
+running (2m33.0s), 101/200 VUs, 42723 complete and 0 interrupted iterations
+default   [  51% ] 101/200 VUs  2m32.3s/5m00.0s
+
+running (2m34.0s), 102/200 VUs, 43162 complete and 0 interrupted iterations
+default   [  51% ] 102/200 VUs  2m33.3s/5m00.0s
+
+running (2m35.0s), 103/200 VUs, 43554 complete and 0 interrupted iterations
+default   [  51% ] 103/200 VUs  2m34.3s/5m00.0s
+
+running (2m36.0s), 104/200 VUs, 43933 complete and 0 interrupted iterations
+default   [  52% ] 104/200 VUs  2m35.3s/5m00.0s
+
+running (2m37.0s), 105/200 VUs, 44278 complete and 0 interrupted iterations
+default   [  52% ] 105/200 VUs  2m36.3s/5m00.0s
+
+running (2m38.0s), 106/200 VUs, 44538 complete and 0 interrupted iterations
+default   [  52% ] 106/200 VUs  2m37.3s/5m00.0s
+
+running (2m39.0s), 106/200 VUs, 44760 complete and 0 interrupted iterations
+default   [  53% ] 106/200 VUs  2m38.3s/5m00.0s
+
+running (2m40.0s), 107/200 VUs, 45036 complete and 0 interrupted iterations
+default   [  53% ] 107/200 VUs  2m39.3s/5m00.0s
+
+running (2m41.0s), 108/200 VUs, 45331 complete and 0 interrupted iterations
+default   [  53% ] 108/200 VUs  2m40.3s/5m00.0s
+
+running (2m42.0s), 109/200 VUs, 45654 complete and 0 interrupted iterations
+default   [  54% ] 109/200 VUs  2m41.3s/5m00.0s
+
+running (2m43.0s), 110/200 VUs, 46007 complete and 0 interrupted iterations
+default   [  54% ] 110/200 VUs  2m42.3s/5m00.0s
+
+running (2m44.0s), 111/200 VUs, 46354 complete and 0 interrupted iterations
+default   [  54% ] 111/200 VUs  2m43.3s/5m00.0s
+
+running (2m45.0s), 111/200 VUs, 46698 complete and 0 interrupted iterations
+default   [  55% ] 111/200 VUs  2m44.3s/5m00.0s
+
+running (2m46.0s), 112/200 VUs, 46996 complete and 0 interrupted iterations
+default   [  55% ] 112/200 VUs  2m45.3s/5m00.0s
+
+running (2m46.9s), 113/200 VUs, 47366 complete and 0 interrupted iterations
+default   [  55% ] 113/200 VUs  2m46.3s/5m00.0s
+
+running (2m47.9s), 114/200 VUs, 47725 complete and 0 interrupted iterations
+default   [  56% ] 114/200 VUs  2m47.3s/5m00.0s
+
+running (2m48.9s), 115/200 VUs, 48061 complete and 0 interrupted iterations
+default   [  56% ] 115/200 VUs  2m48.3s/5m00.0s
+
+running (2m49.9s), 116/200 VUs, 48408 complete and 0 interrupted iterations
+default   [  56% ] 116/200 VUs  2m49.3s/5m00.0s
+
+running (2m50.9s), 116/200 VUs, 48784 complete and 0 interrupted iterations
+default   [  57% ] 116/200 VUs  2m50.3s/5m00.0s
+
+running (2m51.9s), 117/200 VUs, 49169 complete and 0 interrupted iterations
+default   [  57% ] 117/200 VUs  2m51.3s/5m00.0s
+
+running (2m52.9s), 118/200 VUs, 49555 complete and 0 interrupted iterations
+default   [  57% ] 118/200 VUs  2m52.3s/5m00.0s
+
+running (2m53.9s), 119/200 VUs, 49929 complete and 0 interrupted iterations
+default   [  58% ] 119/200 VUs  2m53.3s/5m00.0s
+
+running (2m54.9s), 120/200 VUs, 50322 complete and 0 interrupted iterations
+default   [  58% ] 120/200 VUs  2m54.3s/5m00.0s
+
+running (2m55.9s), 121/200 VUs, 50768 complete and 0 interrupted iterations
+default   [  58% ] 121/200 VUs  2m55.3s/5m00.0s
+
+running (2m56.9s), 121/200 VUs, 51143 complete and 0 interrupted iterations
+default   [  59% ] 121/200 VUs  2m56.3s/5m00.0s
+
+running (2m57.9s), 122/200 VUs, 51566 complete and 0 interrupted iterations
+default   [  59% ] 122/200 VUs  2m57.3s/5m00.0s
+
+running (2m58.9s), 123/200 VUs, 51936 complete and 0 interrupted iterations
+default   [  59% ] 123/200 VUs  2m58.3s/5m00.0s
+
+running (2m59.9s), 124/200 VUs, 52315 complete and 0 interrupted iterations
+default   [  60% ] 124/200 VUs  2m59.3s/5m00.0s
+
+running (3m00.9s), 125/200 VUs, 52722 complete and 0 interrupted iterations
+default   [  60% ] 125/200 VUs  3m00.3s/5m00.0s
+
+running (3m01.9s), 126/200 VUs, 53100 complete and 0 interrupted iterations
+default   [  60% ] 126/200 VUs  3m01.3s/5m00.0s
+
+running (3m02.9s), 126/200 VUs, 53449 complete and 0 interrupted iterations
+default   [  61% ] 126/200 VUs  3m02.3s/5m00.0s
+
+running (3m03.9s), 127/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  61% ] 127/200 VUs  3m03.3s/5m00.0s
+
+running (3m05.0s), 128/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  61% ] 128/200 VUs  3m04.3s/5m00.0s
+
+running (3m06.0s), 129/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  62% ] 129/200 VUs  3m05.3s/5m00.0s
+
+running (3m06.9s), 130/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  62% ] 130/200 VUs  3m06.3s/5m00.0s
+
+running (3m08.0s), 131/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  62% ] 131/200 VUs  3m07.3s/5m00.0s
+
+running (3m08.9s), 131/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  63% ] 131/200 VUs  3m08.3s/5m00.0s
+
+running (3m09.9s), 132/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  63% ] 132/200 VUs  3m09.3s/5m00.0s
+
+running (3m10.9s), 133/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  63% ] 133/200 VUs  3m10.3s/5m00.0s
+
+running (3m11.9s), 134/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  64% ] 134/200 VUs  3m11.3s/5m00.0s
+
+running (3m12.9s), 135/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  64% ] 135/200 VUs  3m12.3s/5m00.0s
+
+running (3m13.9s), 136/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  64% ] 136/200 VUs  3m13.3s/5m00.0s
+
+running (3m14.9s), 136/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  65% ] 136/200 VUs  3m14.3s/5m00.0s
+
+running (3m15.9s), 137/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  65% ] 137/200 VUs  3m15.3s/5m00.0s
+
+running (3m16.9s), 138/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  65% ] 138/200 VUs  3m16.3s/5m00.0s
+
+running (3m17.9s), 139/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  66% ] 139/200 VUs  3m17.3s/5m00.0s
+
+running (3m18.9s), 140/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  66% ] 140/200 VUs  3m18.3s/5m00.0s
+
+running (3m19.9s), 141/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  66% ] 141/200 VUs  3m19.3s/5m00.0s
+
+running (3m20.9s), 141/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  67% ] 141/200 VUs  3m20.3s/5m00.0s
+
+running (3m21.9s), 142/200 VUs, 53604 complete and 0 interrupted iterations
+default   [  67% ] 142/200 VUs  3m21.3s/5m00.0s
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+time="2026-08-01T05:50:45Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": unexpected EOF"
+
+running (3m22.9s), 143/200 VUs, 53633 complete and 0 interrupted iterations
+default   [  67% ] 143/200 VUs  3m22.3s/5m00.0s
+
+running (3m23.9s), 144/200 VUs, 53633 complete and 0 interrupted iterations
+default   [  68% ] 144/200 VUs  3m23.3s/5m00.0s
+
+running (3m24.9s), 145/200 VUs, 53633 complete and 0 interrupted iterations
+default   [  68% ] 145/200 VUs  3m24.3s/5m00.0s
+time="2026-08-01T05:50:48Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m25.9s), 146/200 VUs, 53634 complete and 0 interrupted iterations
+default   [  68% ] 146/200 VUs  3m25.3s/5m00.0s
+time="2026-08-01T05:50:49Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m26.9s), 146/200 VUs, 53635 complete and 0 interrupted iterations
+default   [  69% ] 146/200 VUs  3m26.3s/5m00.0s
+time="2026-08-01T05:50:50Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m27.9s), 147/200 VUs, 53636 complete and 0 interrupted iterations
+default   [  69% ] 147/200 VUs  3m27.3s/5m00.0s
+
+running (3m28.9s), 148/200 VUs, 53636 complete and 0 interrupted iterations
+default   [  69% ] 148/200 VUs  3m28.3s/5m00.0s
+time="2026-08-01T05:50:52Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m29.9s), 149/200 VUs, 53637 complete and 0 interrupted iterations
+default   [  70% ] 149/200 VUs  3m29.3s/5m00.0s
+time="2026-08-01T05:50:53Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m30.9s), 150/200 VUs, 53638 complete and 0 interrupted iterations
+default   [  70% ] 150/200 VUs  3m30.3s/5m00.0s
+time="2026-08-01T05:50:54Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m31.9s), 151/200 VUs, 53639 complete and 0 interrupted iterations
+default   [  70% ] 151/200 VUs  3m31.3s/5m00.0s
+time="2026-08-01T05:50:55Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m32.9s), 151/200 VUs, 53640 complete and 0 interrupted iterations
+default   [  71% ] 151/200 VUs  3m32.3s/5m00.0s
+time="2026-08-01T05:50:56Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m33.9s), 152/200 VUs, 53641 complete and 0 interrupted iterations
+default   [  71% ] 152/200 VUs  3m33.3s/5m00.0s
+
+running (3m34.9s), 153/200 VUs, 53641 complete and 0 interrupted iterations
+default   [  71% ] 153/200 VUs  3m34.3s/5m00.0s
+time="2026-08-01T05:50:58Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m35.9s), 154/200 VUs, 53642 complete and 0 interrupted iterations
+default   [  72% ] 154/200 VUs  3m35.3s/5m00.0s
+time="2026-08-01T05:50:59Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m36.9s), 155/200 VUs, 53643 complete and 0 interrupted iterations
+default   [  72% ] 155/200 VUs  3m36.3s/5m00.0s
+time="2026-08-01T05:51:00Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m37.9s), 156/200 VUs, 53644 complete and 0 interrupted iterations
+default   [  72% ] 156/200 VUs  3m37.3s/5m00.0s
+time="2026-08-01T05:51:01Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m38.9s), 156/200 VUs, 53645 complete and 0 interrupted iterations
+default   [  73% ] 156/200 VUs  3m38.3s/5m00.0s
+time="2026-08-01T05:51:03Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m39.9s), 157/200 VUs, 53646 complete and 0 interrupted iterations
+default   [  73% ] 157/200 VUs  3m39.3s/5m00.0s
+time="2026-08-01T05:51:04Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m40.9s), 158/200 VUs, 53646 complete and 0 interrupted iterations
+default   [  73% ] 158/200 VUs  3m40.3s/5m00.0s
+
+running (3m41.9s), 159/200 VUs, 53647 complete and 0 interrupted iterations
+default   [  74% ] 159/200 VUs  3m41.3s/5m00.0s
+time="2026-08-01T05:51:05Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m42.9s), 160/200 VUs, 53648 complete and 0 interrupted iterations
+default   [  74% ] 160/200 VUs  3m42.3s/5m00.0s
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:06Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m43.9s), 161/200 VUs, 53678 complete and 0 interrupted iterations
+default   [  74% ] 161/200 VUs  3m43.3s/5m00.0s
+time="2026-08-01T05:51:07Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m44.9s), 161/200 VUs, 53679 complete and 0 interrupted iterations
+default   [  75% ] 161/200 VUs  3m44.3s/5m00.0s
+time="2026-08-01T05:51:08Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m45.9s), 162/200 VUs, 53680 complete and 0 interrupted iterations
+default   [  75% ] 162/200 VUs  3m45.3s/5m00.0s
+time="2026-08-01T05:51:09Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:10Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m46.9s), 163/200 VUs, 53681 complete and 0 interrupted iterations
+default   [  75% ] 163/200 VUs  3m46.3s/5m00.0s
+time="2026-08-01T05:51:10Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m47.9s), 164/200 VUs, 53683 complete and 0 interrupted iterations
+default   [  76% ] 164/200 VUs  3m47.3s/5m00.0s
+time="2026-08-01T05:51:11Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:12Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m48.9s), 165/200 VUs, 53685 complete and 0 interrupted iterations
+default   [  76% ] 165/200 VUs  3m48.3s/5m00.0s
+time="2026-08-01T05:51:12Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m49.9s), 166/200 VUs, 53715 complete and 0 interrupted iterations
+default   [  76% ] 166/200 VUs  3m49.3s/5m00.0s
+time="2026-08-01T05:51:13Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:13Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m50.9s), 166/200 VUs, 53841 complete and 0 interrupted iterations
+default   [  77% ] 166/200 VUs  3m50.3s/5m00.0s
+time="2026-08-01T05:51:14Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:14Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m51.9s), 167/200 VUs, 54168 complete and 0 interrupted iterations
+default   [  77% ] 167/200 VUs  3m51.3s/5m00.0s
+time="2026-08-01T05:51:15Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:16Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m52.9s), 168/200 VUs, 54517 complete and 0 interrupted iterations
+default   [  77% ] 168/200 VUs  3m52.3s/5m00.0s
+time="2026-08-01T05:51:16Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m53.9s), 169/200 VUs, 54848 complete and 0 interrupted iterations
+default   [  78% ] 169/200 VUs  3m53.3s/5m00.0s
+time="2026-08-01T05:51:17Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+time="2026-08-01T05:51:18Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": dial tcp 165.22.225.134:443: connect: connection refused"
+
+running (3m54.9s), 170/200 VUs, 55222 complete and 0 interrupted iterations
+default   [  78% ] 170/200 VUs  3m54.3s/5m00.0s
+
+running (3m55.9s), 171/200 VUs, 55540 complete and 0 interrupted iterations
+default   [  78% ] 171/200 VUs  3m55.3s/5m00.0s
+
+running (3m56.9s), 171/200 VUs, 55958 complete and 0 interrupted iterations
+default   [  79% ] 171/200 VUs  3m56.3s/5m00.0s
+
+running (3m57.9s), 172/200 VUs, 56367 complete and 0 interrupted iterations
+default   [  79% ] 172/200 VUs  3m57.3s/5m00.0s
+
+running (3m58.9s), 173/200 VUs, 56755 complete and 0 interrupted iterations
+default   [  79% ] 173/200 VUs  3m58.3s/5m00.0s
+
+running (3m59.9s), 174/200 VUs, 57238 complete and 0 interrupted iterations
+default   [  80% ] 174/200 VUs  3m59.3s/5m00.0s
+
+running (4m00.9s), 175/200 VUs, 57627 complete and 0 interrupted iterations
+default   [  80% ] 175/200 VUs  4m00.3s/5m00.0s
+
+running (4m01.9s), 176/200 VUs, 58048 complete and 0 interrupted iterations
+default   [  80% ] 176/200 VUs  4m01.3s/5m00.0s
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+
+running (4m02.9s), 176/200 VUs, 58469 complete and 0 interrupted iterations
+default   [  81% ] 176/200 VUs  4m02.3s/5m00.0s
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+time="2026-08-01T05:51:26Z" level=warning msg="Request Failed" error="Post \"https://ledgerguard.duvalkwali.tech/api/screen\": request timeout"
+
+running (4m03.9s), 177/200 VUs, 58864 complete and 0 interrupted iterations
+default   [  81% ] 177/200 VUs  4m03.3s/5m00.0s
+
+running (4m04.9s), 178/200 VUs, 59307 complete and 0 interrupted iterations
+default   [  81% ] 178/200 VUs  4m04.3s/5m00.0s
+
+running (4m05.9s), 179/200 VUs, 59709 complete and 0 interrupted iterations
+default   [  82% ] 179/200 VUs  4m05.3s/5m00.0s
+
+running (4m06.9s), 180/200 VUs, 60085 complete and 0 interrupted iterations
+default   [  82% ] 180/200 VUs  4m06.3s/5m00.0s
+
+running (4m07.9s), 181/200 VUs, 60446 complete and 0 interrupted iterations
+default   [  82% ] 181/200 VUs  4m07.3s/5m00.0s
+
+running (4m08.9s), 181/200 VUs, 60900 complete and 0 interrupted iterations
+default   [  83% ] 181/200 VUs  4m08.3s/5m00.0s
+
+running (4m09.9s), 182/200 VUs, 61298 complete and 0 interrupted iterations
+default   [  83% ] 182/200 VUs  4m09.3s/5m00.0s
+
+running (4m10.9s), 183/200 VUs, 61715 complete and 0 interrupted iterations
+default   [  83% ] 183/200 VUs  4m10.3s/5m00.0s
+
+running (4m11.9s), 184/200 VUs, 62117 complete and 0 interrupted iterations
+default   [  84% ] 184/200 VUs  4m11.3s/5m00.0s
+
+running (4m12.9s), 185/200 VUs, 62529 complete and 0 interrupted iterations
+default   [  84% ] 185/200 VUs  4m12.3s/5m00.0s
+
+running (4m13.9s), 186/200 VUs, 62964 complete and 0 interrupted iterations
+default   [  84% ] 186/200 VUs  4m13.3s/5m00.0s
+
+running (4m14.9s), 186/200 VUs, 63359 complete and 0 interrupted iterations
+default   [  85% ] 186/200 VUs  4m14.3s/5m00.0s
+
+running (4m15.9s), 187/200 VUs, 63800 complete and 0 interrupted iterations
+default   [  85% ] 187/200 VUs  4m15.3s/5m00.0s
+
+running (4m16.9s), 188/200 VUs, 64219 complete and 0 interrupted iterations
+default   [  85% ] 188/200 VUs  4m16.3s/5m00.0s
+
+running (4m17.9s), 189/200 VUs, 64682 complete and 0 interrupted iterations
+default   [  86% ] 189/200 VUs  4m17.3s/5m00.0s
+
+running (4m18.9s), 190/200 VUs, 65153 complete and 0 interrupted iterations
+default   [  86% ] 190/200 VUs  4m18.3s/5m00.0s
+
+running (4m19.9s), 191/200 VUs, 65550 complete and 0 interrupted iterations
+default   [  86% ] 191/200 VUs  4m19.3s/5m00.0s
+
+running (4m20.9s), 191/200 VUs, 65904 complete and 0 interrupted iterations
+default   [  87% ] 191/200 VUs  4m20.3s/5m00.0s
+
+running (4m21.9s), 192/200 VUs, 66290 complete and 0 interrupted iterations
+default   [  87% ] 192/200 VUs  4m21.3s/5m00.0s
+
+running (4m22.9s), 193/200 VUs, 66682 complete and 0 interrupted iterations
+default   [  87% ] 193/200 VUs  4m22.3s/5m00.0s
+
+running (4m23.9s), 194/200 VUs, 67098 complete and 0 interrupted iterations
+default   [  88% ] 194/200 VUs  4m23.3s/5m00.0s
+
+running (4m24.9s), 195/200 VUs, 67498 complete and 0 interrupted iterations
+default   [  88% ] 195/200 VUs  4m24.3s/5m00.0s
+
+running (4m25.9s), 196/200 VUs, 67873 complete and 0 interrupted iterations
+default   [  88% ] 196/200 VUs  4m25.3s/5m00.0s
+
+running (4m26.9s), 196/200 VUs, 68204 complete and 0 interrupted iterations
+default   [  89% ] 196/200 VUs  4m26.3s/5m00.0s
+
+running (4m27.9s), 197/200 VUs, 68620 complete and 0 interrupted iterations
+default   [  89% ] 197/200 VUs  4m27.3s/5m00.0s
+
+running (4m28.9s), 198/200 VUs, 68954 complete and 0 interrupted iterations
+default   [  89% ] 198/200 VUs  4m28.3s/5m00.0s
+
+running (4m29.9s), 199/200 VUs, 69292 complete and 0 interrupted iterations
+default   [  90% ] 199/200 VUs  4m29.3s/5m00.0s
+
+running (4m30.9s), 200/200 VUs, 69680 complete and 0 interrupted iterations
+default   [  90% ] 200/200 VUs  4m30.3s/5m00.0s
+
+running (4m31.9s), 193/200 VUs, 70092 complete and 0 interrupted iterations
+default   [  90% ] 193/200 VUs  4m31.3s/5m00.0s
+
+running (4m32.9s), 186/200 VUs, 70562 complete and 0 interrupted iterations
+default   [  91% ] 186/200 VUs  4m32.3s/5m00.0s
+
+running (4m33.9s), 180/200 VUs, 70908 complete and 0 interrupted iterations
+default   [  91% ] 180/200 VUs  4m33.3s/5m00.0s
+
+running (4m34.9s), 173/200 VUs, 71324 complete and 0 interrupted iterations
+default   [  91% ] 173/200 VUs  4m34.3s/5m00.0s
+
+running (4m35.9s), 167/200 VUs, 71736 complete and 0 interrupted iterations
+default   [  92% ] 167/200 VUs  4m35.3s/5m00.0s
+
+running (4m36.9s), 161/200 VUs, 72114 complete and 0 interrupted iterations
+default   [  92% ] 161/200 VUs  4m36.3s/5m00.0s
+
+running (4m37.9s), 152/200 VUs, 72468 complete and 0 interrupted iterations
+default   [  92% ] 152/200 VUs  4m37.3s/5m00.0s
+
+running (4m38.9s), 146/200 VUs, 72892 complete and 0 interrupted iterations
+default   [  93% ] 146/200 VUs  4m38.3s/5m00.0s
+
+running (4m39.9s), 140/200 VUs, 73254 complete and 0 interrupted iterations
+default   [  93% ] 140/200 VUs  4m39.3s/5m00.0s
+
+running (4m40.9s), 134/200 VUs, 73631 complete and 0 interrupted iterations
+default   [  93% ] 134/200 VUs  4m40.3s/5m00.0s
+
+running (4m41.9s), 126/200 VUs, 74072 complete and 0 interrupted iterations
+default   [  94% ] 126/200 VUs  4m41.3s/5m00.0s
+
+running (4m42.9s), 120/200 VUs, 74447 complete and 0 interrupted iterations
+default   [  94% ] 120/200 VUs  4m42.3s/5m00.0s
+
+running (4m43.9s), 115/200 VUs, 74804 complete and 0 interrupted iterations
+default   [  94% ] 115/200 VUs  4m43.3s/5m00.0s
+
+running (4m44.9s), 106/200 VUs, 75268 complete and 0 interrupted iterations
+default   [  95% ] 106/200 VUs  4m44.3s/5m00.0s
+
+running (4m45.9s), 100/200 VUs, 75638 complete and 0 interrupted iterations
+default   [  95% ] 100/200 VUs  4m45.3s/5m00.0s
+
+running (4m46.9s), 093/200 VUs, 76002 complete and 0 interrupted iterations
+default   [  95% ] 093/200 VUs  4m46.3s/5m00.0s
+
+running (4m47.9s), 086/200 VUs, 76394 complete and 0 interrupted iterations
+default   [  96% ] 086/200 VUs  4m47.3s/5m00.0s
+
+running (4m48.9s), 080/200 VUs, 76836 complete and 0 interrupted iterations
+default   [  96% ] 080/200 VUs  4m48.3s/5m00.0s
+
+running (4m49.9s), 073/200 VUs, 77228 complete and 0 interrupted iterations
+default   [  96% ] 073/200 VUs  4m49.3s/5m00.0s
+
+running (4m50.9s), 066/200 VUs, 77635 complete and 0 interrupted iterations
+default   [  97% ] 066/200 VUs  4m50.3s/5m00.0s
+
+running (4m51.9s), 059/200 VUs, 78004 complete and 0 interrupted iterations
+default   [  97% ] 059/200 VUs  4m51.3s/5m00.0s
+
+running (4m52.9s), 052/200 VUs, 78403 complete and 0 interrupted iterations
+default   [  97% ] 052/200 VUs  4m52.3s/5m00.0s
+
+running (4m53.9s), 046/200 VUs, 78758 complete and 0 interrupted iterations
+default   [  98% ] 046/200 VUs  4m53.3s/5m00.0s
+
+running (4m54.9s), 039/200 VUs, 79108 complete and 0 interrupted iterations
+default   [  98% ] 039/200 VUs  4m54.3s/5m00.0s
+
+running (4m55.9s), 033/200 VUs, 79448 complete and 0 interrupted iterations
+default   [  98% ] 033/200 VUs  4m55.3s/5m00.0s
+
+running (4m56.9s), 026/200 VUs, 79751 complete and 0 interrupted iterations
+default   [  99% ] 026/200 VUs  4m56.3s/5m00.0s
+
+running (4m57.9s), 019/200 VUs, 79991 complete and 0 interrupted iterations
+default   [  99% ] 019/200 VUs  4m57.3s/5m00.0s
+
+running (4m58.9s), 012/200 VUs, 80168 complete and 0 interrupted iterations
+default   [  99% ] 012/200 VUs  4m58.3s/5m00.0s
+
+running (4m59.9s), 006/200 VUs, 80270 complete and 0 interrupted iterations
+default   [ 100% ] 006/200 VUs  4m59.3s/5m00.0s
+
+
+  █ THRESHOLDS 
+
+    errors
+    ✓ 'rate<0.01' rate=0.23%
+
+    screen_latency
+    ✓ 'p(95)<500' p(95)=454.03ms
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 160602 534.097344/s
+    checks_succeeded...: 99.76% 160232 out of 160602
+    checks_failed......: 0.23%  370 out of 160602
+
+    ✗ status is 200
+      ↳  99% — ✓ 80112 / ✗ 189
+    ✗ decision is PASS|FLAG|REJECT
+      ↳  99% — ✓ 80120 / ✗ 181
+
+    CUSTOM
+    errors.........................: 0.23% 189 out of 80301
+    screen_latency.................: avg=266.64ms min=0s      med=143.59ms p(90)=358.96ms p(95)=454.03ms p(99)=646.69ms max=59.99s
+
+    HTTP
+    http_req_duration..............: avg=266.64ms min=0s      med=143.59ms p(90)=358.96ms p(95)=454.03ms p(99)=646.69ms max=59.99s
+      { expected_response:true }...: avg=187.67ms min=23.77ms med=143.54ms p(90)=357.79ms p(95)=452.36ms p(99)=636.87ms max=13.05s
+    http_req_failed................: 0.23% 189 out of 80302
+    http_reqs......................: 80302 267.051997/s
+
+    EXECUTION
+    iteration_duration.............: avg=340.85ms min=74.45ms med=194.66ms p(90)=411.87ms p(95)=507.66ms p(99)=710.74ms max=1m0s  
+    iterations.....................: 80301 267.048672/s
+    vus............................: 6     min=1            max=200
+    vus_max........................: 200   min=200          max=200
+
+    NETWORK
+    data_received..................: 23 MB 77 kB/s
+    data_sent......................: 23 MB 78 kB/s
+
+
+
+
+running (5m00.7s), 000/200 VUs, 80301 complete and 0 interrupted iterations
+default ✓ [ 100% ] 000/200 VUs  5m0s
