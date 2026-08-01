@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import * as api from "../api/client";
 import { useAuth } from "../auth/AuthContext";
+import { getDevToken, setDevToken } from "../auth/store";
 import ScreenPanel from "../components/ScreenPanel";
 
 // Recharts renders to SVG attributes, which cannot resolve CSS variables, so the
@@ -98,14 +99,32 @@ export default function Dashboard() {
     return () => source.close();
   }, []);
 
+  /**
+   * Seeding needs the dev token as well as an admin session. It is asked for once per
+   * tab rather than stored with the login, because it is a deployment secret that
+   * happens to pass through the browser — not part of the user's identity.
+   */
   const handleSeed = async () => {
+    const devToken = getDevToken() ?? window.prompt(
+      "Seeding requires the deployment's dev token (sent as X-Dev-Token).");
+    if (!devToken) return;
+    setDevToken(devToken.trim());
+
     setSeeding(true);
     setError(null);
     try {
-      await api.seed(200);
+      await api.seed(200, devToken.trim());
       await loadStats();
     } catch (e) {
-      setError(e.message);
+      // 404 is what both a wrong token and a deployment without one return, by design:
+      // the endpoint does not confirm its own existence to a caller who cannot use it.
+      if (e.status === 404) {
+        setDevToken(null);
+        setError("Seeding is unavailable: the dev token was rejected, or this "
+          + "deployment has no DEV_API_TOKEN configured.");
+      } else {
+        setError(e.message);
+      }
     } finally {
       setSeeding(false);
     }

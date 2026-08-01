@@ -47,7 +47,7 @@ async function readError(response) {
   }
 }
 
-async function request(path, { method = "GET", body, auth = true, signal } = {}) {
+async function request(path, { method = "GET", body, auth = true, signal, headers: extra } = {}) {
   const headers = {};
   if (body !== undefined) headers["Content-Type"] = "application/json";
 
@@ -55,6 +55,8 @@ async function request(path, { method = "GET", body, auth = true, signal } = {})
     const token = getToken();
     if (token) headers.Authorization = `Bearer ${token}`;
   }
+
+  Object.assign(headers, extra);
 
   const response = await fetch(`${API_BASE}${path}`, {
     method,
@@ -182,6 +184,18 @@ export function getDashboardStats() {
   return request("/api/dashboard/stats");
 }
 
-export function seed(count = 200) {
-  return request(`/api/dev/seed?count=${count}`, { method: "POST" });
+/**
+ * Seeds demo data.
+ *
+ * `/api/dev/**` requires the ADMIN role *and* an `X-Dev-Token` header matching the
+ * deployment's `DEV_API_TOKEN` — these endpoints truncate and regenerate the ledger, so
+ * the admin password alone is deliberately not enough. The secret cannot live in this
+ * bundle, so the caller passes it in; a missing or wrong token comes back as 404, which
+ * is also what a deployment with no dev token configured returns.
+ */
+export function seed(count = 200, devToken) {
+  return request(`/api/dev/seed?count=${count}`, {
+    method: "POST",
+    headers: devToken ? { "X-Dev-Token": devToken } : undefined,
+  });
 }

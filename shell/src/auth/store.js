@@ -31,6 +31,34 @@ export function getToken() {
 }
 
 /**
+ * The dev-endpoint token, held for the tab's lifetime only.
+ *
+ * `/api/dev/**` needs a shared secret in addition to the ADMIN role, and that secret
+ * cannot be baked into the bundle — the bundle is served to anyone who loads the page.
+ * So the operator supplies it at the moment they use it. sessionStorage rather than
+ * localStorage: closing the tab should not leave it behind on a shared machine.
+ */
+const DEV_TOKEN_KEY = "ledgerguard.devToken";
+
+export function getDevToken() {
+  try {
+    return sessionStorage.getItem(DEV_TOKEN_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setDevToken(token) {
+  try {
+    if (token) sessionStorage.setItem(DEV_TOKEN_KEY, token);
+    else sessionStorage.removeItem(DEV_TOKEN_KEY);
+  } catch {
+    // Private-browsing modes can refuse the write. The token still works for this
+    // call; the operator is just asked for it again next time.
+  }
+}
+
+/**
  * Whether the stored token has passed its `exp` claim.
  *
  * Read locally only to tell a genuinely expired session apart from a permission
