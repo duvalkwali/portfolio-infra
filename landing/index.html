@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duval Kwali — Backend Engineering</title>
+    <meta
+      name="description"
+      content="Backend engineering portfolio. LedgerGuard: fraud screening with a tamper-evident hash-chained audit ledger, and the measured work that made it twice as fast."
+    />
+    <meta name="color-scheme" content="dark" />
+
+    <!--
+      Everything this page needs is served from this origin. No CDN fonts, no external
+      stylesheets, no analytics: Caddy's file_server is the whole delivery mechanism, and
+      a third-party request would be one more thing that can fail or go slow in front of
+      a page whose entire job is to load instantly.
+
+      The favicon is an inline data URI for the same reason — a real file would be a
+      second round trip for sixteen pixels.
+    -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236366f1'/%3E%3Cpath d='M9 22V10h3.2v9.3H23V22z' fill='%230f1117'/%3E%3C/svg%3E"
+    />
+    <!-- Relative, not /styles.css: the page has to render identically whether Caddy is
+         serving it from /srv/portfolio or someone has double-clicked the file. -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#work">Skip to projects</a>
+
+    <div class="page">
+      <header class="intro">
+        <p class="eyebrow">Duval Kwali</p>
+        <h1>
+          I build backend systems where <em>correctness</em> and
+          <em>latency</em> are both the point.
+        </h1>
+        <p class="lede">
+          Four services, each one a problem I wanted to solve properly rather than
+          demonstrate. They run on a single DigitalOcean droplet behind Caddy — deliberately
+          small hardware, because constraints are what make the engineering legible.
+        </p>
+        <nav class="intro-links" aria-label="Elsewhere">
+          <a href="https://github.com/duvalkwali">GitHub</a>
+          <span aria-hidden="true">·</span>
+          <a href="mailto:duvalkwali7@gmail.com">Email</a>
+        </nav>
+      </header>
+
+      <main id="work">
+        <!-- The one that is actually live gets the space. -->
+        <article class="feature" aria-labelledby="ledgerguard-heading">
+          <div class="feature-head">
+            <div>
+              <p class="eyebrow">Live now</p>
+              <h2 id="ledgerguard-heading">LedgerGuard</h2>
+            </div>
+            <span class="pill pill-live">
+              <span class="dot" aria-hidden="true"></span>Deployed
+            </span>
+          </div>
+
+          <p class="feature-lede">
+            Fraud screening for financial transactions, with an audit trail you can prove
+            nobody edited. Every decision is appended to a hash-chained ledger where each
+            entry commits to its predecessor, so altering any historical row invalidates
+            every hash after it and the tamper shows up on the next verification.
+          </p>
+
+          <p class="feature-body">
+            The interesting problem was never the rule engine. It was doing that append
+            correctly <em>and</em> quickly with many requests in flight — the original
+            implementation read the chain head and wrote the next entry inside the request,
+            which let two concurrent screenings claim the same predecessor and fork the
+            chain into something that could never verify again. Serialising every append
+            through a single writer removed the race by construction and took the insert
+            off the request path at the same time.
+          </p>
+
+          <h3 class="metrics-title">
+            Measured on the same container, same load profile, same script
+          </h3>
+          <dl class="metrics">
+            <div class="metric">
+              <dt>p95 latency</dt>
+              <dd><strong>205<span class="unit">ms</span></strong></dd>
+              <p class="delta delta-good">−71% from 717ms</p>
+            </div>
+            <div class="metric">
+              <dt>p99 latency</dt>
+              <dd><strong>314<span class="unit">ms</span></strong></dd>
+              <p class="delta delta-good">−68% from 994ms</p>
+            </div>
+            <div class="metric">
+              <dt>Throughput</dt>
+              <dd><strong>230<span class="unit">req/s</span></strong></dd>
+              <p class="delta delta-good">+99% from 116</p>
+            </div>
+            <div class="metric">
+              <dt>Errors</dt>
+              <dd><strong>0.00<span class="unit">%</span></strong></dd>
+              <p class="delta">at 100 virtual users</p>
+            </div>
+          </dl>
+
+          <p class="footnote">
+            0.75 CPU / 768 MB container, 100 VUs via k6. The "after" figure is the median
+            of three warm runs — throughput here is bimodal against JIT warmup, and
+            publishing whichever run came first would mislead in one direction or the
+            other. Raw output and methodology are in the repository.
+          </p>
+
+          <ul class="stack" aria-label="Stack">
+            <li>Java 21</li>
+            <li>Spring Boot 3</li>
+            <li>PostgreSQL</li>
+            <li>Redis</li>
+            <li>React 19</li>
+            <li>Docker</li>
+            <li>Prometheus</li>
+          </ul>
+
+          <div class="actions">
+            <a class="button button-primary" href="https://ledgerguard.duvalkwali.tech">
+              Open the dashboard
+            </a>
+            <a
+              class="button"
+              href="https://ledgerguard.duvalkwali.tech/swagger-ui.html"
+            >
+              API docs
+            </a>
+            <a class="button" href="https://github.com/duvalkwali/ledgerguard">
+              Source
+            </a>
+          </div>
+        </article>
+
+        <h2 class="section-title">In progress</h2>
+        <ul class="grid">
+          <li class="card">
+            <div class="card-head">
+              <h3>Relay</h3>
+              <span class="pill">Coming soon</span>
+            </div>
+            <p>
+              An event relay: durable delivery with retries and replay, built to make
+              at-least-once semantics something you can actually observe rather than
+              assume.
+            </p>
+            <ul class="stack" aria-label="Planned stack">
+              <li>TypeScript</li>
+              <li>Node</li>
+            </ul>
+          </li>
+
+          <li class="card">
+            <div class="card-head">
+              <h3>DocuMind</h3>
+              <span class="pill">Coming soon</span>
+            </div>
+            <p>
+              Document ingestion and retrieval — parsing, chunking and semantic search over
+              a corpus, with the retrieval quality measured rather than asserted.
+            </p>
+            <ul class="stack" aria-label="Planned stack">
+              <li>Python</li>
+              <li>FastAPI</li>
+            </ul>
+          </li>
+
+          <li class="card">
+            <div class="card-head">
+              <h3>AeroPulse</h3>
+              <span class="pill">Coming soon</span>
+            </div>
+            <p>
+              A time-series telemetry pipeline: high-cardinality ingest, downsampling, and
+              queries that stay fast as the retention window grows.
+            </p>
+            <ul class="stack" aria-label="Planned stack">
+              <li>Java</li>
+              <li>TimescaleDB</li>
+            </ul>
+          </li>
+        </ul>
+      </main>
+
+      <footer class="footer">
+        <p>
+          Everything above runs on one droplet behind Caddy, deployed by GitHub Actions on
+          push.
+        </p>
+        <p class="footer-links">
+          <a href="https://github.com/duvalkwali">github.com/duvalkwali</a>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
