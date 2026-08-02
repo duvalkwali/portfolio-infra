@@ -8,6 +8,18 @@ ledgerguard.duvalkwali.tech {
 	handle /api/* {
 		reverse_proxy ledgerguard:8080
 	}
+	# Listed before the general /actuator/* block below, and a longer path besides, so it
+	# wins however Caddy orders the two.
+	#
+	# Spring Security has to leave this endpoint open: Prometheus scrapes it over the
+	# compose network as ledgerguard:8080 and presents no credentials. That makes Caddy
+	# the only place the public route can be closed, and it should be — the scrape
+	# publishes every URI the app serves, its connection-pool state and its GC behaviour,
+	# which is a free reconnaissance feed for anyone who asks. Prometheus reaches the
+	# container directly and never comes through here, so this costs nothing.
+	handle /actuator/prometheus {
+		respond "Not Found" 404
+	}
 	handle /actuator/* {
 		reverse_proxy ledgerguard:8080
 	}
@@ -50,11 +62,21 @@ aeropulse.duvalkwali.tech {
 	encode gzip
 }
 
+# Matches the grafana service in docker-compose.yml, which listens on 3000 and publishes
+# no host port — this block is the only route to it. GF_SERVER_ROOT_URL is set to this
+# hostname so Grafana's own redirects and share links agree with what is in front of it.
 grafana.duvalkwali.tech {
 	reverse_proxy grafana:3000
 	encode gzip
 }
 
+# The portfolio landing page, built from ./landing and placed in ./www/portfolio, which
+# the ./www:/srv:ro mount exposes here as /srv/portfolio.
+#
+# No try_files: this is a static page, not a client-side-routed app. file_server already
+# serves index.html for /, and adding `try_files {path} /index.html` would make every
+# unknown path answer 200 with the landing page instead of 404 — which is what an SPA
+# needs and what a two-file static site should not do.
 duvalkwali.tech, www.duvalkwali.tech {
 	root * /srv/portfolio
 	file_server

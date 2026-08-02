@@ -1,0 +1,6 @@
+# Intentionally empty.
+#
+# Grafana walks every provisioning subdirectory at startup and logs an ERROR for each one
+# that is missing. The provisioning directory is mounted read-only, so it cannot create
+# them itself. Keeping this directory present means the only ERROR lines in Grafana's log
+# are real ones.

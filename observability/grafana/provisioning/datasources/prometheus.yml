@@ -1,0 +1,24 @@
+# Provisioned rather than clicked in. A datasource created through the UI lives only in
+# Grafana's sqlite volume, so it would vanish the first time that volume was recreated
+# and the provisioned dashboard would come back with every panel unable to resolve its
+# source.
+
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    # Fixed uid, referenced by every panel in observability/grafana/dashboards/. Letting
+    # Grafana generate one would make the dashboard JSON non-portable — it would bind to
+    # whatever uid this instance happened to mint.
+    uid: prometheus
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false
+    jsonData:
+      # Matches global.scrape_interval in prometheus.yml. Grafana uses this as the floor
+      # for $__rate_interval, so a mismatch here produces panels that look correct and
+      # silently under-sample.
+      timeInterval: 15s
+      httpMethod: POST

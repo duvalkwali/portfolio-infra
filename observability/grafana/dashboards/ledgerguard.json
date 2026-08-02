@@ -1,0 +1,387 @@
+{
+  "uid": "ledgerguard-overview",
+  "title": "LedgerGuard — Service Overview",
+  "description": "Screening latency and decision mix, HTTP traffic, and the JVM underneath. Panel queries are pinned to application=\"ledgerguard\", which management.metrics.tags stamps on every series.",
+  "tags": ["ledgerguard"],
+  "timezone": "browser",
+  "editable": true,
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-6h", "to": "now" },
+  "templating": {
+    "list": [
+      {
+        "name": "datasource",
+        "label": "Data source",
+        "type": "datasource",
+        "query": "prometheus",
+        "current": { "text": "Prometheus", "value": "prometheus" },
+        "hide": 0
+      }
+    ]
+  },
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "name": "Annotations & Alerts",
+        "type": "dashboard",
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "enable": true
+      }
+    ]
+  },
+  "panels": [
+    {
+      "type": "row",
+      "id": 100,
+      "title": "Screening",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Screening latency",
+      "description": "Computed from the histogram buckets rather than from pre-aggregated percentiles, so these stay correct over any window the time picker selects.",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 1 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 6, "showPoints": "never" },
+          "color": { "mode": "palette-classic" }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["mean", "max"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "p50",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(ledgerguard_screening_duration_seconds_bucket{application=\"ledgerguard\"}[$__rate_interval])))"
+        },
+        {
+          "refId": "B",
+          "legendFormat": "p95",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(ledgerguard_screening_duration_seconds_bucket{application=\"ledgerguard\"}[$__rate_interval])))"
+        },
+        {
+          "refId": "C",
+          "legendFormat": "p99",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(ledgerguard_screening_duration_seconds_bucket{application=\"ledgerguard\"}[$__rate_interval])))"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Decisions by outcome",
+      "description": "The PASS/FLAG/REJECT mix. A sudden shift here means either the traffic changed or somebody edited a rule — both worth noticing.",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 1 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 22, "stacking": { "mode": "normal" }, "showPoints": "never" }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "PASS" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#22c55e" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "FLAG" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#eab308" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "REJECT" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#ef4444" } }]
+          }
+        ]
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["mean"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "{{decision}}",
+          "expr": "sum by (decision) (rate(ledgerguard_screening_decisions_total{application=\"ledgerguard\"}[$__rate_interval]))"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "Audit writer queue depth",
+      "description": "Entries accepted by the API but not yet written to Postgres. Appends are acknowledged before they persist, so a writer falling behind is invisible in request latency until the bounded queue (20,000) fills and callers start blocking on it. A line that climbs and does not come back down is the early warning.",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 9 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 12, "showPoints": "never" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 1000 },
+              { "color": "red", "value": 10000 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["max"] },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "pending entries",
+          "expr": "ledgerguard_audit_queue_depth{application=\"ledgerguard\"}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Rate-limited requests (429)",
+      "description": "Screening requests refused by the per-principal token bucket. The deployed limit is set above what this container can serve, so a non-zero line here means either a genuinely runaway client or that the limit has been tightened.",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 9 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 18, "showPoints": "never" },
+          "color": { "mode": "fixed", "fixedColor": "#eab308" }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["mean", "max"] },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "429/s",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"ledgerguard\",status=\"429\"}[$__rate_interval]))"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "id": 200,
+      "title": "HTTP",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Request rate by status",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 17 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 22, "stacking": { "mode": "normal" }, "showPoints": "never" }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["mean"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "{{status}}",
+          "expr": "sum by (status) (rate(http_server_requests_seconds_count{application=\"ledgerguard\"}[$__rate_interval]))"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "HTTP latency by endpoint (p95)",
+      "description": "Broken out by URI so a slow endpoint is attributable rather than averaged into the whole service.",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 17 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 4, "showPoints": "never" }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["max"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "{{method}} {{uri}}",
+          "expr": "histogram_quantile(0.95, sum by (le, uri, method) (rate(http_server_requests_seconds_bucket{application=\"ledgerguard\"}[$__rate_interval])))"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "id": 300,
+      "title": "JVM",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 25 },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "JVM memory used by area",
+      "description": "The container is capped at 768 MB with MaxRAMPercentage=70, so the heap ceiling is roughly 537 MB. Heap approaching that line while GC time climbs is the shape of the stall that Phase 3 fixed.",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 26 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 10, "showPoints": "never" }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["mean", "max"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "{{area}}",
+          "expr": "sum by (area) (jvm_memory_used_bytes{application=\"ledgerguard\"})"
+        },
+        {
+          "refId": "B",
+          "legendFormat": "heap committed",
+          "expr": "sum(jvm_memory_committed_bytes{application=\"ledgerguard\",area=\"heap\"})"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "GC pause time",
+      "description": "Seconds spent collecting per second of wall clock — read it as the fraction of time the JVM is paused. Under 2 CPUs the JVM would pick SerialGC by default; the Dockerfile forces G1, and this panel is where a regression on that would show up.",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 26 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 14, "showPoints": "never" }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["mean", "max"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "{{action}} ({{cause}})",
+          "expr": "sum by (action, cause) (rate(jvm_gc_pause_seconds_sum{application=\"ledgerguard\"}[$__rate_interval]))"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Live threads and CPU",
+      "description": "The container gets 0.75 of a CPU, so process CPU sitting at 0.75 means saturation rather than headroom.",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 34 },
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 6, "showPoints": "never" }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "process CPU (cores)" },
+            "properties": [{ "id": "custom.axisPlacement", "value": "right" }]
+          }
+        ]
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["mean", "max"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "live threads",
+          "expr": "jvm_threads_live_threads{application=\"ledgerguard\"}"
+        },
+        {
+          "refId": "B",
+          "legendFormat": "process CPU (cores)",
+          "expr": "process_cpu_usage{application=\"ledgerguard\"}"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "Hikari connection pool",
+      "description": "Pool is sized at 12 against a Postgres capped at 0.50 CPU. Pending threads above zero means requests are queuing for a connection.",
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 34 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "custom": { "lineWidth": 1, "fillOpacity": 6, "showPoints": "never" }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "calcs": ["mean", "max"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "legendFormat": "active",
+          "expr": "hikaricp_connections_active{application=\"ledgerguard\"}"
+        },
+        {
+          "refId": "B",
+          "legendFormat": "idle",
+          "expr": "hikaricp_connections_idle{application=\"ledgerguard\"}"
+        },
+        {
+          "refId": "C",
+          "legendFormat": "pending",
+          "expr": "hikaricp_connections_pending{application=\"ledgerguard\"}"
+        }
+      ]
+    }
+  ]
+}

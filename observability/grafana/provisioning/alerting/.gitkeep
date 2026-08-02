@@ -1,0 +1,4 @@
+# Intentionally empty. See ../plugins/.gitkeep — Grafana logs an ERROR for each missing
+# provisioning subdirectory, and the mount is read-only so it cannot create them.
+#
+# This is also where alert rules would be provisioned if this deployment grows any.

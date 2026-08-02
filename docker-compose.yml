@@ -99,8 +99,81 @@ services:
           cpus: "0.75"
           memory: 768M
 
+  # ---------------------------------------------------------------------------------
+  # Observability. Both services are pinned to the smallest limits that still leave them
+  # functional, because they are diagnostic tooling sharing a droplet with the thing they
+  # diagnose — monitoring that competes with the application for memory has defeated its
+  # own purpose.
+  # ---------------------------------------------------------------------------------
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      # Seven days is enough to answer "was it always like this?" and to cover a
+      # weekend. The size cap is the one that actually protects the droplet: retention by
+      # time alone would let an unexpected jump in series count fill the disk.
+      - --storage.tsdb.retention.time=7d
+      - --storage.tsdb.retention.size=512MB
+      # No remote write, no alertmanager, and the admin API stays off — nothing should be
+      # able to delete series over HTTP.
+      - --web.enable-lifecycle
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    # Deliberately no published port. Prometheus is reachable only from inside the compose
+    # network — Grafana queries it by service name, and there is no Caddy block for it.
+    depends_on:
+      ledgerguard:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          cpus: "0.15"
+          memory: 128M
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      # Grafana builds every absolute URL from this — login redirects and share links
+      # come out as localhost:3000 without it, since the container cannot know it is
+      # behind a proxy.
+      GF_SERVER_ROOT_URL: https://grafana.duvalkwali.tech
+      # Caddy terminates TLS and proxies over the internal network, so Grafana itself
+      # serves plain HTTP and must not try to redirect to https on its own.
+      GF_SERVER_ENFORCE_DOMAIN: "false"
+      # This instance exists to show three dashboards. Anonymous access stays off, and so
+      # does self-registration.
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      # Phoning home and polling for plugin updates are pure overhead on a 128M container
+      # that will never install a plugin.
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_INSTALL_PLUGINS: ""
+    volumes:
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    # Also unpublished: Caddy reverse-proxies grafana:3000 for
+    # grafana.duvalkwali.tech, which is the only way in.
+    depends_on:
+      prometheus:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          cpus: "0.15"
+          memory: 128M
+
 volumes:
   pg_data:
   redis_data:
   caddy_data:
   caddy_config:
+  prometheus_data:
+  grafana_data:

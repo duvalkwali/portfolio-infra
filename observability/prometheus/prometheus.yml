@@ -1,0 +1,35 @@
+# Prometheus is sharing a small droplet with the application it is watching, so this
+# config is written to keep its footprint boring rather than to be thorough. One target,
+# a 15s interval, and a retention window measured in days — see docker-compose.yml, where
+# the retention flag and the 128M limit are set together.
+
+global:
+  # 15s is the useful floor for a service whose p99 is ~300ms: fine enough to see a
+  # latency excursion within a dashboard refresh, coarse enough that a week of history
+  # stays small. Every rate() expression in the provisioned dashboard uses a window of at
+  # least 1m, which is comfortably above the 4× interval that rate() needs to be stable.
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    environment: production
+
+scrape_configs:
+  # Prometheus watching itself. Cheap, and the first thing worth checking when a panel
+  # goes blank is whether the scraper is the thing that is broken.
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: ledgerguard
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["ledgerguard:8080"]
+        labels:
+          service: ledgerguard
+    # Resolved over the compose network by service name, so this reaches the container
+    # directly and never traverses Caddy or the public hostname. That is deliberate: the
+    # scrape endpoint is unauthenticated, and the Caddyfile answers 404 for it publicly.
+    #
+    # The app already stamps every series with application="ledgerguard" via
+    # management.metrics.tags, so no metric_relabel_configs are needed here.
+    scrape_timeout: 10s

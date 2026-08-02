@@ -1,0 +1,23 @@
+# Points Grafana at the dashboard JSON mounted from observability/grafana/dashboards.
+# The files on disk are the source of truth: the dashboard is version-controlled next to
+# the service it describes, rather than being a thing that exists only inside a volume.
+
+apiVersion: 1
+
+providers:
+  - name: ledgerguard
+    orgId: 1
+    folder: LedgerGuard
+    type: file
+    # An edit made in the UI is a local experiment, not a change to the deployment. This
+    # keeps it from being written back over the mounted file — which is read-only anyway,
+    # so the alternative is Grafana logging a permissions error every 30 seconds.
+    disableDeletion: true
+    allowUiUpdates: false
+    updateIntervalSeconds: 30
+    options:
+      path: /var/lib/grafana/dashboards
+      # Without this every dashboard lands in the same flat folder; it only matters once
+      # the other three services arrive, which is exactly when nobody will remember to
+      # come back and set it.
+      foldersFromFilesStructure: false
