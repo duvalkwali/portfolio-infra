@@ -46,12 +46,13 @@
 
   <body>
     <!--
-      The ledger chain, drawn behind everything. Purely decorative — it carries nothing
-      the prose does not, which is why it is aria-hidden and why the page is complete
-      without it. If the canvas fails to initialise, or scripting is off, the radial wash
-      painted on <body> is the finished background and nothing is missing.
+      A rotating world, drawn behind everything in one WebGL fragment shader. Purely
+      decorative — it carries nothing the prose does not, which is why it is aria-hidden
+      and why the page is complete without it. If WebGL is unavailable, the shader fails
+      to compile, the context is lost, or scripting is off, the radial wash painted on
+      <body> is the finished background and nothing is missing.
     -->
-    <canvas id="chain" aria-hidden="true"></canvas>
+    <canvas id="space" aria-hidden="true"></canvas>
 
     <a class="skip-link" href="#work">Skip to projects</a>
 
@@ -310,6 +311,6 @@
       </footer>
     </div>
 
-    <script src="chain.js" defer></script>
+    <script src="space.js" defer></script>
   </body>
 </html>
