@@ -16,19 +16,43 @@
       a third-party request would be one more thing that can fail or go slow in front of
       a page whose entire job is to load instantly.
 
-      The favicon is an inline data URI for the same reason — a real file would be a
-      second round trip for sixteen pixels.
+      The three typefaces are self-hosted in ./fonts as Latin subsets for that same
+      reason. This page used to name "Inter" and fall through to system-ui, which meant
+      almost nobody ever saw it in Inter — while the dashboard, which does load Inter from
+      Google, rendered in the real thing. Two halves of one property in two different
+      typefaces.
+
+      The favicon stays an inline data URI: a real file would be a second round trip for
+      sixteen pixels.
     -->
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236366f1'/%3E%3Cpath d='M9 22V10h3.2v9.3H23V22z' fill='%230f1117'/%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231D3FCC'/%3E%3Cpath d='M9 22V10h3.2v9.3H23V22z' fill='%2305070E'/%3E%3C/svg%3E"
     />
+
+    <!--
+      Preloaded because both are used above the fold — the eyebrow and H1 are among the
+      first things painted. font-display: swap means text is never invisible while they
+      arrive, so a slow font costs a reflow rather than a blank screen. JetBrains Mono is
+      not preloaded: its first use is the metric block, comfortably below the fold.
+    -->
+    <link rel="preload" href="fonts/inter-400-600.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/archivo-700.woff2" as="font" type="font/woff2" crossorigin />
+
     <!-- Relative, not /styles.css: the page has to render identically whether Caddy is
          serving it from /srv/portfolio or someone has double-clicked the file. -->
     <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body>
+    <!--
+      The ledger chain, drawn behind everything. Purely decorative — it carries nothing
+      the prose does not, which is why it is aria-hidden and why the page is complete
+      without it. If the canvas fails to initialise, or scripting is off, the radial wash
+      painted on <body> is the finished background and nothing is missing.
+    -->
+    <canvas id="chain" aria-hidden="true"></canvas>
+
     <a class="skip-link" href="#work">Skip to projects</a>
 
     <div class="page">
@@ -52,7 +76,7 @@
 
       <main id="work">
         <!-- The one that is actually live gets the space. -->
-        <article class="feature" aria-labelledby="ledgerguard-heading">
+        <article class="feature" data-reveal aria-labelledby="ledgerguard-heading">
           <div class="feature-head">
             <div>
               <p class="eyebrow">Live now</p>
@@ -139,8 +163,40 @@
           </div>
         </article>
 
-        <h2 class="section-title">In progress</h2>
-        <ul class="grid">
+        <!--
+          Finished work that is not deployed anywhere, so it gets the card treatment
+          rather than the feature treatment — but at full opacity, because 0.72 is
+          reserved for things that do not exist yet.
+        -->
+        <article class="card card-solid" data-reveal aria-labelledby="mia-heading">
+          <div class="card-head">
+            <h2 id="mia-heading">MIA.ai</h2>
+            <span class="pill">Source available</span>
+          </div>
+          <p>
+            A privacy-first WhatsApp business-messaging reply system. Llama 3.2 is
+            self-hosted via Ollama, which holds per-message inference cost at zero against
+            paid LLM APIs. Rule-based signal extraction handles roughly 70% of incoming
+            messages, with the model as a fallback for the rest — so the expensive path
+            only runs when the cheap one cannot answer. Redis caches prompt templates and
+            conversation context, falling back to PostgreSQL on a miss.
+          </p>
+          <ul class="stack" aria-label="Stack">
+            <li>TypeScript</li>
+            <li>Node.js</li>
+            <li>PostgreSQL</li>
+            <li>Prisma</li>
+            <li>Redis</li>
+            <li>Ollama</li>
+            <li>Next.js</li>
+          </ul>
+          <div class="actions">
+            <a class="button" href="https://github.com/duvalkwali/mia-backend">Source</a>
+          </div>
+        </article>
+
+        <h2 class="section-title" data-reveal>In progress</h2>
+        <ul class="grid" data-reveal>
           <li class="card">
             <div class="card-head">
               <h3>Relay</h3>
@@ -187,6 +243,60 @@
             </ul>
           </li>
         </ul>
+
+        <h2 class="section-title" data-reveal>Earlier work</h2>
+        <ul class="grid grid-two" data-reveal>
+          <li class="card">
+            <div class="card-head">
+              <h3>Password Strength Analyzer</h3>
+            </div>
+            <p class="card-meta">CS50P final project</p>
+            <p>
+              A Python CLI that scores password strength 0–100 across four tiers, using
+              entropy estimated from detected character-pool size plus regex detection of
+              repeats, common sequences, and known weak passwords. Unit-tested with
+              pytest.
+            </p>
+            <ul class="stack" aria-label="Stack">
+              <li>Python</li>
+              <li>pytest</li>
+            </ul>
+            <div class="actions">
+              <a class="button" href="https://github.com/duvalkwali/Password-Strength-Analyzer">
+                Source
+              </a>
+            </div>
+          </li>
+
+          <li class="card">
+            <div class="card-head">
+              <h3>Smart Course Companion</h3>
+            </div>
+            <p class="card-meta">SOEN 287, team project</p>
+            <p>
+              A full-stack course enrollment and grade-tracking application with role-based
+              student and admin dashboards over a REST API.
+            </p>
+            <ul class="stack" aria-label="Stack">
+              <li>React</li>
+              <li>Node.js</li>
+              <li>Express</li>
+              <li>SQLite</li>
+              <li>Tailwind</li>
+            </ul>
+            <div class="actions">
+              <a class="button" href="https://github.com/duvalkwali/smart-course-companion-soen287">
+                Source
+              </a>
+            </div>
+          </li>
+        </ul>
+
+        <p class="aside" data-reveal>
+          Also: CS50x and CS50P (Harvard) — C, memory management, data structures,
+          algorithms, SQL, and Flask across both courses. Coursework solutions are kept
+          private per CS50's academic honesty policy.
+        </p>
       </main>
 
       <footer class="footer">
@@ -199,5 +309,7 @@
         </p>
       </footer>
     </div>
+
+    <script src="chain.js" defer></script>
   </body>
 </html>

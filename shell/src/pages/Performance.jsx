@@ -23,7 +23,7 @@ import {
  */
 const SERIES = {
   before: { label: "Before (naive)", color: "#d97706" },
-  after: { label: "After (optimized)", color: "#6366f1" },
+  after: { label: "After (optimized)", color: "#1d3fcc" },
 };
 
 const metrics = {

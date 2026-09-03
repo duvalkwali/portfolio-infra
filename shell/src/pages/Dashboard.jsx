@@ -17,9 +17,9 @@ import ScreenPanel from "../components/ScreenPanel";
 // Recharts renders to SVG attributes, which cannot resolve CSS variables, so the
 // decision palette is repeated here as literals matching index.css.
 const DECISION_COLORS = {
-  PASS: "#22c55e",
-  FLAG: "#eab308",
-  REJECT: "#ef4444",
+  PASS: "#2bd98a",
+  FLAG: "#e8b42b",
+  REJECT: "#ff4d5e",
 };
 
 const MAX_LIVE_ALERTS = 12;
@@ -175,23 +175,23 @@ export default function Dashboard() {
           ) : (
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={chartData} margin={{ top: 8, right: 8, bottom: 0, left: 8 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2d3140" vertical={false} />
-                <XAxis dataKey="time" tick={{ fill: "#5a5e70", fontSize: 11 }} stroke="#2d3140" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#1b2340" vertical={false} />
+                <XAxis dataKey="time" tick={{ fill: "#78859f", fontSize: 11 }} stroke="#1b2340" />
                 <YAxis
-                  tick={{ fill: "#5a5e70", fontSize: 11 }}
-                  stroke="#2d3140"
+                  tick={{ fill: "#78859f", fontSize: 11 }}
+                  stroke="#1b2340"
                   width={70}
                   tickFormatter={(value) => value.toLocaleString()}
                 />
                 <Tooltip
-                  cursor={{ fill: "rgba(99,102,241,0.08)" }}
+                  cursor={{ fill: "rgba(29,63,204,0.12)" }}
                   contentStyle={{
-                    background: "#1a1d27",
-                    border: "1px solid #2d3140",
+                    background: "#0a0e1c",
+                    border: "1px solid #1b2340",
                     borderRadius: 8,
                     fontSize: 12,
                   }}
-                  labelStyle={{ color: "#8b8fa3" }}
+                  labelStyle={{ color: "#c6cee4" }}
                   formatter={(value, _key, item) => [
                     formatAmount(value),
                     item?.payload?.decision ?? "Amount",
@@ -295,7 +295,7 @@ const styles = {
     display: "inline-block",
   },
   error: {
-    background: "rgba(239,68,68,0.08)",
+    background: "rgba(255,77,94,0.10)",
     border: "1px solid var(--red)",
     borderRadius: 8,
     padding: "10px 14px",
