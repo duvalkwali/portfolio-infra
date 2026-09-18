@@ -151,7 +151,7 @@ const styles = {
     outline: "none",
   },
   error: {
-    background: "rgba(239,68,68,0.08)",
+    background: "rgba(255,77,94,0.10)",
     border: "1px solid var(--red)",
     borderRadius: 8,
     padding: "10px 12px",

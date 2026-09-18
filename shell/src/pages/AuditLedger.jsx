@@ -48,7 +48,7 @@ export default function AuditLedger() {
           style={{
             ...styles.verifyBanner,
             borderColor: verifyResult.valid ? "var(--green)" : "var(--red)",
-            background: verifyResult.valid ? "rgba(34,197,94,0.08)" : "rgba(239,68,68,0.08)",
+            background: verifyResult.valid ? "rgba(43,217,138,0.10)" : "rgba(255,77,94,0.10)",
           }}
         >
           <span style={{ color: verifyResult.valid ? "var(--green)" : "var(--red)", fontWeight: 600 }}>
@@ -144,7 +144,7 @@ const styles = {
   },
   emptyText: { color: "var(--text-muted)", fontSize: 14 },
   error: {
-    background: "rgba(239,68,68,0.08)",
+    background: "rgba(255,77,94,0.10)",
     border: "1px solid var(--red)",
     borderRadius: 8,
     padding: "10px 14px",

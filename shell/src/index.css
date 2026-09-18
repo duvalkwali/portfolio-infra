@@ -1,19 +1,30 @@
+/*
+ * Shared with the landing page (landing/styles.css), which keeps a deliberate copy of
+ * this block — the landing page is static files served straight off disk and this is a
+ * Vite bundle, so there is nothing to import between them. Change one, change both.
+ *
+ * Recharts renders to SVG attributes and cannot resolve CSS variables, so several of
+ * these values are also repeated as literals in pages/Dashboard.jsx and
+ * pages/Performance.jsx. Those are copies of this block too.
+ */
 :root {
-  --bg-primary: #0f1117;
-  --bg-secondary: #1a1d27;
-  --bg-card: #21242f;
-  --border: #2d3140;
-  --text-primary: #e4e6ed;
-  --text-secondary: #8b8fa3;
-  --text-muted: #5a5e70;
-  --accent: #6366f1;
-  --accent-hover: #818cf8;
-  --green: #22c55e;
-  --yellow: #eab308;
-  --red: #ef4444;
-  --cleared: #22c55e;
-  --review: #eab308;
-  --blocked: #ef4444;
+  --bg-primary: #05070e;
+  --bg-secondary: #0a0e1c;
+  --bg-card: #10162b;
+  --border: #1b2340;
+  --text-primary: #eef1f8;
+  --text-secondary: #c6cee4;
+  --text-muted: #78859f;
+  --accent: #1d3fcc;
+  --accent-hover: #4c74ff;
+  /* Gradient floor and canvas backdrop. Too dark to carry text. */
+  --accent-deep: #0e2278;
+  --green: #2bd98a;
+  --yellow: #e8b42b;
+  --red: #ff4d5e;
+  --cleared: #2bd98a;
+  --review: #e8b42b;
+  --blocked: #ff4d5e;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
