@@ -110,14 +110,18 @@ body {
   line-height: 1.6;
 
   /*
-   * The base layer beneath the canvas, and the whole background if the canvas never
-   * initialises or scripting is off — the page has to look finished either way. The
-   * colour is --accent-deep; it is written as rgba because a gradient needs the alpha.
+   * The whole background whenever the canvas is not there — no WebGL, a shader that
+   * failed to compile, a lost context, scripting off. The page has to look finished in
+   * every one of those cases, so this is not a placeholder: it is a deliberately composed
+   * still of the same scene, dark at the lower left where the reading column sits and
+   * carrying a soft glow at the upper right where the planet would be. The colours are
+   * --accent-deep and --accent-hover, written as rgba because a gradient needs the alpha.
    *
    * No background-attachment: fixed. It was a documented scroll-jank source on mobile,
    * and the canvas now does the parallax properly.
    */
   background-image:
+    radial-gradient(ellipse 34% 46% at 87% 2%, rgba(76, 116, 255, 0.14), transparent 62%),
     radial-gradient(ellipse 85% 55% at 50% -8%, rgba(14, 34, 120, 0.55), transparent 68%),
     radial-gradient(ellipse 60% 45% at 92% 4%, rgba(29, 63, 204, 0.16), transparent 62%);
   background-repeat: no-repeat;
@@ -128,7 +132,7 @@ body {
  * Behind everything, and inert. Fixed rather than absolute so it costs one compositor
  * layer instead of a document-height bitmap.
  */
-#chain {
+#space {
   position: fixed;
   inset: 0;
   z-index: -1;
@@ -592,7 +596,7 @@ h3 {
 /* ---------- Scroll reveal ---------- */
 
 /*
- * The hidden state is applied only when chain.js confirms scripting is live and motion
+ * The hidden state is applied only when space.js confirms scripting is live and motion
  * is allowed. Putting it in plain CSS would leave the whole page invisible to anyone
  * with JavaScript disabled — the failure mode where a "progressive enhancement" hides
  * the content it was meant to enhance.
@@ -622,5 +626,12 @@ h3 {
   .reveal-ready [data-reveal] {
     opacity: 1;
     transform: none;
+  }
+
+  /* The single frame space.js draws under this preference is the only one there will ever
+     be, which also means it is the one state where the scene cannot dim itself as the
+     reader scrolls — that fade is driven from the frame loop. Held back here instead. */
+  #space {
+    opacity: 0.72;
   }
 }
